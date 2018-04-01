@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/03/2018 02:37:23 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.iwtg.ipaymonitor.datalayer.model.Audit" table="audit" catalog="web_aa" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="nroTransaccion" type="string">
+            <column name="nroTransaccion" length="65535" />
+        </property>
+        <property name="accion" type="string">
+            <column name="accion" length="65535" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="65535" />
+        </property>
+    </class>
+</hibernate-mapping>

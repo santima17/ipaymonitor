@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/03/2018 02:37:23 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.iwtg.ipaymonitor.datalayer.model.Transaction" table="transaction" catalog="web_aa" optimistic-lock="version">
+        <id name="codigoRes" type="string">
+            <column name="codigoRes" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="canal" type="string">
+            <column name="canal" length="45" not-null="true" />
+        </property>
+        <property name="pais" type="string">
+            <column name="pais" length="45" not-null="true" />
+        </property>
+        <property name="medioPago" type="string">
+            <column name="medioPago" length="45" not-null="true" />
+        </property>
+        <property name="moneda" type="string">
+            <column name="moneda" length="45" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="100" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" not-null="true" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="apellido" length="45" not-null="true" />
+        </property>
+        <property name="mail" type="string">
+            <column name="mail" length="45" not-null="true" />
+        </property>
+        <property name="documento" type="string">
+            <column name="documento" length="45" not-null="true" />
+        </property>
+        <property name="monto" type="string">
+            <column name="monto" length="45" not-null="true" />
+        </property>
+        <property name="codCard" type="string">
+            <column name="codCard" length="45" not-null="true" />
+        </property>
+        <property name="notify" type="boolean">
+            <column name="notify" not-null="true" />
+        </property>
+        <property name="notifyMyWay" type="boolean">
+            <column name="notifyMyWay" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

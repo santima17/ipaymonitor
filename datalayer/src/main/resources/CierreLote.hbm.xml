@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/03/2018 02:37:23 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.iwtg.ipaymonitor.datalayer.model.CierreLote" table="cierre_lote" catalog="web_aa" optimistic-lock="version">
+        <id name="codigoRes" type="string">
+            <column name="codigoRes" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="tarjeta" type="string">
+            <column name="tarjeta" length="20" not-null="true" />
+        </property>
+        <property name="autorizacion" type="string">
+            <column name="autorizacion" length="6" not-null="true" />
+        </property>
+        <property name="codcomercio" type="string">
+            <column name="codcomercio" length="15" not-null="true" />
+        </property>
+        <property name="lote" type="string">
+            <column name="lote" length="3" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

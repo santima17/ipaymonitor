@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/03/2018 02:37:23 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.iwtg.ipaymonitor.datalayer.model.MediopagoHasUsuarios" table="mediopago_has_usuarios" catalog="web_aa" optimistic-lock="version">
+        <composite-id name="id" class="com.iwtg.ipaymonitor.datalayer.model.MediopagoHasUsuariosId">
+            <key-property name="idUsuario" type="int">
+                <column name="id_usuario" />
+            </key-property>
+            <key-property name="idMpago" type="string">
+                <column name="id_mpago" length="45" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>
