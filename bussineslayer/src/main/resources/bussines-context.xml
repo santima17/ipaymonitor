@@ -6,5 +6,6 @@
 
 	<bean id="userBO" class="com.iwtg.ipaymonitor.bussineslayer.users.implementations.IPayMonitorUserBOImplementation"/>
 	<bean id="systemBO" class="com.iwtg.ipaymonitor.bussineslayer.system.implementations.IPayMonitorSystemBOImplementation"/>
+	<bean id="searchBO" class="com.iwtg.ipaymonitor.bussineslayer.search.implementations.IPayMonitorSearchBOImplementation"/>
 	
 </beans>

@@ -6,5 +6,6 @@
 
 	<bean id="userServices" class="com.iwtg.ipaymonitor.servicelayer.users.implementations.IPayMonitorUserServiceImplementation"/>
 	<bean id="systemServices" class="com.iwtg.ipaymonitor.servicelayer.system.implementations.IPayMonitorSystemServiceImplementation"/>
+	<bean id="searchServices" class="com.iwtg.ipaymonitor.servicelayer.search.implementations.IPayMonitorSearchServiceImplementation"/>
 	
 </beans>

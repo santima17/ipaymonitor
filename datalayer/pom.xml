@@ -20,6 +20,14 @@
 
 	<dependencies>
 
+		<!-- Modulo dal ipay -->
+		<dependency>
+			<groupId>com.iwtg.ipaymonitor</groupId>
+			<artifactId>generic</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- Modulo dal ipay -->
+
 		<!-- Modulos de hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

@@ -2,6 +2,9 @@ package com.iwtg.ipaymonitor.datalayer.interfaces;
 
 import java.util.List;
 
+import com.iwtg.ipaymonitor.datalayer.model.Transaction;
+import com.iwtg.ipaymonitor.generic.datatypes.DataSearchTransactionParameter;
+
 public interface IPayMonitorMySQLDAO {
 
 	<T> Integer save(final T o);
@@ -19,5 +22,7 @@ public interface IPayMonitorMySQLDAO {
 	<T> List<T> getAll(final Class<T> type);
 
 	<T> List<T> getAllByExample(final Class<T> type, final T objectQuery);
+
+	List<Transaction> searchTransactions(DataSearchTransactionParameter createSearchParameter);
 
 }

@@ -15,8 +15,13 @@
 
 	<bean id="userFacades"
 		class="com.iwtg.ipaymonitor.facades.users.implementations.IPayMonitorUserFacadesImplementation" />
-		
-		<bean id="systemFacades"
+
+	<bean id="systemFacades"
 		class="com.iwtg.ipaymonitor.facades.system.implementations.IPayMonitorSystemFacadesImplementation" />
+
+	<bean id="searchFacades"
+		class="com.iwtg.ipaymonitor.facades.search.implementations.IPayMonitorSearchFacadesImplementation" />
+
+
 
 </beans>

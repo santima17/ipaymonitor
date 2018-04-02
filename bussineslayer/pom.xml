@@ -24,6 +24,11 @@
 			<artifactId>datalayer</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.iwtg.ipaymonitor</groupId>
+			<artifactId>generic</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<!-- Modulo dal ipay -->
 
 

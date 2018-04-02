@@ -9,6 +9,7 @@ import org.hibernate.criterion.Example;
 
 import com.iwtg.ipaymonitor.datalayer.context.DBHibernateUtil;
 import com.iwtg.ipaymonitor.datalayer.interfaces.IPayMonitorMySQLDAO;
+import com.iwtg.ipaymonitor.generic.datatypes.DataSearchTransactionParameter;
 
 public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 
@@ -34,8 +35,17 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 
 	public boolean delete(final Object object) {
 		Session dbSession = DBHibernateUtil.getSessionFactoryMain();
-		dbSession.delete(object);
-		return true;
+		Transaction tx = dbSession.getTransaction();
+		try {
+			tx.begin();
+			dbSession.delete(object);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			return false;
+		}
 	}
 
 	public <T> T get(final Class<T> type, final Integer id) {
@@ -80,6 +90,12 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 		Example objectExample = Example.create(objectQuery);
 		final Criteria crit = dbSession.createCriteria(type).add(objectExample);
 		return crit.list();
+	}
+
+	public List<com.iwtg.ipaymonitor.datalayer.model.Transaction> searchTransactions(
+			DataSearchTransactionParameter createSearchParameter) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

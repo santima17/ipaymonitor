@@ -95,13 +95,8 @@ public class IPayMonitorUserBOImplementation implements IPayMonitorUserBO {
 	}
 
 	public boolean removeCountryForUser(PaisHasUsuarios phu) {
-		List<PaisHasUsuarios> resultList = daoServices.getAllByExample(PaisHasUsuarios.class, phu);
-		if(CollectionUtils.isNotEmpty(resultList)) {
-			daoServices.delete(resultList.get(0));
+			daoServices.delete(phu);
 			return true;
-		}else {
-			return false;
-		}
 	}
 
 	public boolean removeChannelForUser(CanalHasUsuarios chu) {
