@@ -8,6 +8,7 @@ import com.iwtg.ipaymonitor.bussineslayer.search.implementations.IPayMonitorSear
 import com.iwtg.ipaymonitor.bussineslayer.system.interfaces.IPayMonitorSystemBO;
 import com.iwtg.ipaymonitor.datalayer.model.Transaction;
 import com.iwtg.ipaymonitor.generic.datatypes.DataSearchTransactionParameter;
+import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionSearchResult;
 import com.iwtg.ipaymonitor.servicelayer.search.interfaces.IPayMonitorSearchService;
 
 
@@ -16,7 +17,7 @@ public class IPayMonitorSearchServiceImplementation implements IPayMonitorSearch
 	IPayMonitorSearchBO searchBO = (IPayMonitorSearchBOImplementation) IpayMonitorBussinesContextLoader.contextLoader()
 			.getBean("searchBO");
 
-	public List<Transaction> searchTransactions(DataSearchTransactionParameter createSearchParameter) {
+	public List<DataTransactionSearchResult> searchTransactions(DataSearchTransactionParameter createSearchParameter) {
 		return searchBO.searchTransactions(createSearchParameter);
 	}
   

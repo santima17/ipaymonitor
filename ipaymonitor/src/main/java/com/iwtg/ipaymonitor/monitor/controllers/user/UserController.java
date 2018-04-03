@@ -28,14 +28,7 @@ import com.iwtg.ipaymonitor.monitor.validators.user.UserValidator;
 @RequestMapping("/user")
 public class UserController {
 
-	private static final String ERROR_ADD_COUNTRY = "Error during add country, try again";
-	private static final String ERROR_ADD_CARD = "Error during add cardbrand, try again";
-	private static final String ERROR_ADD_CHANNEL = "Error during add channel, try again";
-	
-	private static final String ERROR_REMOVE_COUNTRY = "Error during delete country, try again";
-	private static final String ERROR_REMOVE_CARD = "Error during delete cardbrand, try again";
-	private static final String ERROR_REMOVE_CHANNEL = "Error during delete channel, try again";
-	
+
 	private static final String USER_ALREADY_EXIST = " already exist";
 	private static final String USER_ID_IS_REQUIRED = "user id is required";
 	private static final String USER_NOT_MODIFIED = "user not modified";
@@ -44,10 +37,10 @@ public class UserController {
 	@Resource(name = "userFacades")
 	IPayMonitorUserFacades userFacades;
 
-//	@InitBinder
-//	protected void initBinder(WebDataBinder binder) {
-//		binder.setValidator(new UserValidator());
-//	}
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new UserValidator());
+	}
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllUsers() {
@@ -119,58 +112,5 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/addCountry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity addCountryForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.addCountryForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_ADD_COUNTRY, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@RequestMapping(value = "/addChannel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity addChannelForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.addChannelForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_ADD_CHANNEL, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@RequestMapping(value = "/addCard", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity addCardbrandForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.addCardbrandForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_ADD_CARD, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@RequestMapping(value = "/removeCountry", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity removeCountryForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.removeCountryForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_REMOVE_COUNTRY, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@RequestMapping(value = "/removeChannel", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity removeChannelForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.removeChannelForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_REMOVE_CHANNEL, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@RequestMapping(value = "/removeCard", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity removeCardbrandForUser(@RequestBody DataActiveSystemItem item) {
-		if (userFacades.removeCardbrandForUser(item.getUserID(), item.getItemID())) {
-			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(ERROR_REMOVE_CARD, HttpStatus.BAD_REQUEST);
-		}
-	}
 
 }

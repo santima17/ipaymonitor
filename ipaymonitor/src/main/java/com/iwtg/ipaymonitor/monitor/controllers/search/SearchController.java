@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iwtg.ipaymonitor.facades.datatypes.search.DataSearchTransaction;
-import com.iwtg.ipaymonitor.facades.datatypes.search.DataTransactionSearchResult;
 import com.iwtg.ipaymonitor.facades.exceptions.IPayMonitorException;
 import com.iwtg.ipaymonitor.facades.search.interfaces.IPayMonitorSearchFacades;
+import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionSearchResult;
 
 @RestController
 @RequestMapping("/search")
@@ -26,7 +26,7 @@ public class SearchController{
 	@Resource(name = "searchFacades")
 	IPayMonitorSearchFacades searchFacades;
 	
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity searchTransactions(@RequestBody DataSearchTransaction dataSearchTransaction, BindingResult result,
 			HttpServletRequest request) {
 		try {
