@@ -2,8 +2,11 @@ package com.iwtg.ipaymonitor.datalayer.implementations;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -98,20 +101,48 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 	}
 
 	public List<DataTransactionSearchResult> searchTransactions(DataSearchTransactionParameter searchParameter) {
-		if (searchParameter.getTransactionID() != null) {
+		if (StringUtils.isNotEmpty(searchParameter.getTransactionID())) {
 			List<DataTransactionSearchResult> result = new ArrayList<DataTransactionSearchResult>();
-			com.iwtg.ipaymonitor.datalayer.model.Transaction transaction = getTransaction(searchParameter.getTransactionID());
-			if(transaction != null) {
+			com.iwtg.ipaymonitor.datalayer.model.Transaction transaction = getTransaction(
+					searchParameter.getTransactionID());
+			if (transaction != null) {
 				CierreLote cierre = getCierre(transaction.getCodigoRes());
 				result.add(convertResult(transaction, cierre));
 			}
 			return result;
 		} else {
 			Session dbSession = DBHibernateUtil.getSessionFactoryMain();
-			Query query = dbSession.createSQLQuery(construirQueryBusqueda(searchParameter, false));
+			Query query = dbSession.createSQLQuery(makeSearchQuery(searchParameter));
 			List<Object[]> resultList = query.list();
-			return null;
+			return convertResult(resultList);
 		}
+	}
+
+	private List<DataTransactionSearchResult> convertResult(List<Object[]> resultList) {
+		List<DataTransactionSearchResult> resultDataList = new ArrayList<DataTransactionSearchResult>();
+		if(CollectionUtils.isNotEmpty(resultList)) {
+			for(Object[] row :resultList) {
+				DataTransactionSearchResult dataResult = new DataTransactionSearchResult();
+				dataResult.setCodigoRes((String)row[0]);
+				dataResult.setCanal((String)row[1]);
+				dataResult.setPais((String)row[2]);
+				dataResult.setMedioPago((String)row[3]);
+				dataResult.setMoneda((String)row[4]);
+				dataResult.setEstado((String)row[5]);
+				dataResult.setFecha((Date)row[6]);
+				dataResult.setNombre((String)row[7]);
+				dataResult.setApellido((String)row[8]);
+				dataResult.setMail((String)row[9]);
+				dataResult.setDocumento((String)row[10]);
+				dataResult.setMonto((String)row[11]);
+				dataResult.setCodCard((String)row[12]);
+				dataResult.setTarjeta((String)row[15]);
+				dataResult.setAutorizacion((String)row[16]);
+				dataResult.setCodcomercio((String)row[17]);
+				resultDataList.add(dataResult);
+			}
+		}
+		return resultDataList;
 	}
 
 	private DataTransactionSearchResult convertResult(com.iwtg.ipaymonitor.datalayer.model.Transaction transaction,
@@ -136,106 +167,89 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 		return dataResult;
 	}
 
-	private String construirQueryBusqueda(DataSearchTransactionParameter searchParameter, boolean isXLS) {
-		String query = "SELECT t.*, b.* FROM transaction t JOIN batch_closure b ON t.reservationNumber = b.reservationNumber ";
-		if (isXLS) {
-			query = "SELECT t.*, b.* INTO OUTFILE '/opt/tomcat-latest/webapps/monitor/consulta.xls' FROM transaction t JOIN batch_closure b ON t.reservationNumber = b.reservationNumber ";
-		}
+	private String makeSearchQuery(DataSearchTransactionParameter searchParameter) {
+		String query = "select t.*, c.tarjeta, c.autorizacion, c.codcomercio from transaction t join cierre_lote c on c.codigoRes = t.codigoRes ";
 		String where = "where ";
 		int cont = 0;
-
-		if (!searchParameter.getDocument().equals("")) {
+		
+		if (StringUtils.isNotEmpty(searchParameter.getDocument())) {
 			if (cont == 1) {
-				where = where + " and creditCardNumber = '" + searchParameter.getDocument() + "'";
+				where = where + " and documento = '" + searchParameter.getDocument() + "'";
 			} else {
-				where = where + "creditCardNumber = '" + searchParameter.getDocument() + "'";
+				where = where + "documento = '" + searchParameter.getDocument() + "'";
 			}
 			cont = 1;
 		}
-		if (!searchParameter.getDocument().equals("Todos")) {
+		if (!searchParameter.getStatus().equals("all")) {
 			if (cont == 1) {
-				if (searchParameter.getDocument().equals("Autorizado")) {
-					where = where + " and transactionStatusCode like '%000%'";
-				} else if (searchParameter.getDocument().equals("Cancelado")) {
-					where = where + " and transactionStatusCode = '112'";
-				} else if (searchParameter.getDocument().equals("Devuelto")) {
-					where = where + " and transactionStatusCode = 'D'";
-				} else if (searchParameter.getDocument().equals("Check. Manual")) {
-					where = where + " and transactionStatusCode = 'CHK'";
+				if (searchParameter.getStatus().equals("Autorizado")) {
+					where = where + " and estado like '%000%'";
+				} else if (searchParameter.getStatus().equals("Cancelado")) {
+					where = where + " and estado = 'C'";
+				} else if (searchParameter.getStatus().equals("Devuelto")) {
+					where = where + " and estado = 'D'";
 				} else {
 					where = where
-							+ " and (transactionStatusCode like '%001%' OR transactionStatusCode like '%010%' OR transactionStatusCode like '%011%' OR transactionStatusCode like '%100%' OR transactionStatusCode like '%110%' OR transactionStatusCode like '%111%' OR transactionStatusCode like '%114%')";
+							+ " and (estado like '%001%' OR estado like '%010%' OR estado like '%011%' OR estado like '%100%' OR estado like '%110%' OR estado like '%111%')";
 				}
-			} else if (searchParameter.getDocument().equals("Autorizado")) {
-				where = where + " transactionStatusCode like '%000%'";
-			} else if (searchParameter.getDocument().equals("Cancelado")) {
-				where = where + "transactionStatusCode = '112'";
-			} else if (searchParameter.getDocument().equals("Devuelto")) {
-				where = where + "transactionStatusCode = 'D'";
-			} else if (searchParameter.getDocument().equals("Check. Manual")) {
-				where = where + "transactionStatusCode = 'CHK'";
+			} else if (searchParameter.getStatus().equals("Autorizado")) {
+				where = where + " estado like '%000%'";
+			} else if (searchParameter.getStatus().equals("Cancelado")) {
+				where = where + "estado = 'C'";
+			} else if (searchParameter.getStatus().equals("Devuelto")) {
+				where = where + "estado = 'D'";
 			} else {
 				where = where
-						+ " (transactionStatusCode like '%001%' OR transactionStatusCode like '%010%' OR transactionStatusCode like '%011%' OR transactionStatusCode like '%100%' OR transactionStatusCode like '%110%' OR transactionStatusCode like '%111%' OR transactionStatusCode like '%114%')";
+						+ " (estado like '%001%' OR estado like '%010%' OR estado like '%011%' OR estado like '%100%' OR estado like '%110%' OR estado like '%111%')";
 			}
 
 			cont = 1;
 		}
-
-		if (!searchParameter.getBank().equals("Todos")) {
+		if (!searchParameter.getCountry().equals("all")) {
 			if (cont == 1) {
-				where = where + " and acquirerID = '" + searchParameter.getBank() + "'";
+				where = where + " and pais = '" + searchParameter.getCountry() + "'";
 			} else {
-				where = where + " acquirerID = '" + searchParameter.getBank() + "'";
+				where = where + "pais = '" + searchParameter.getCountry() + "'";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getChannel().equals("all")) {
+			if (cont == 1) {
+				where = where + " and canal = '" + searchParameter.getChannel() + "'";
+			} else {
+				where = where + "canal = '" + searchParameter.getChannel() + "'";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getCurrency().equals("all")) {
+			if (cont == 1) {
+				where = where + " and moneda = '" + searchParameter.getCurrency() + "'";
+			} else {
+				where = where + "moneda = '" + searchParameter.getCurrency() + "'";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getCardBrand().equals("all")) {
+			if (cont == 1) {
+				where = where + " and medioPago = '" + searchParameter.getCardBrand() + "'";
+			} else {
+				where = where + "medioPago = '" + searchParameter.getCardBrand() + "'";
 			}
 			cont = 1;
 		}
 
-		if (!searchParameter.getCountry().equals("Todos")) {
-			if (cont == 1) {
-				where = where + " and country = '" + searchParameter.getBank() + "'";
-			} else {
-				where = where + " country = '" + searchParameter.getBank() + "'";
-			}
-			cont = 1;
-		}
-		if (!searchParameter.getChannel().equals("Todos")) {
-			if (cont == 1) {
-				where = where + " and channel  = '" + searchParameter.getChannel() + "'";
-			} else {
-				where = where + " channel  = '" + searchParameter.getChannel() + "'";
-			}
-			cont = 1;
-		}
-		if (!searchParameter.getCurrency().equals("Todas")) {
-			if (cont == 1) {
-				where = where + " and currency = '" + searchParameter.getCurrency() + "'";
-			} else {
-				where = where + " currency = '" + searchParameter.getCurrency() + "'";
-			}
-			cont = 1;
-		}
-		if (!searchParameter.getCardBrand().equals("Todos")) {
-			if (cont == 1) {
-				where = where + " and creditCardBrand = '" + searchParameter.getCardBrand() + "'";
-			} else {
-				where = where + "creditCardBrand = '" + searchParameter.getCardBrand() + "'";
-			}
-			cont = 1;
-		}
-
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatterFrom = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		SimpleDateFormat formatterTo = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
 
 		if (cont == 1) {
-			where = where + " and (date >= '" + formatter.format(searchParameter.getDateFrom()) + "' and date <= '"
-					+ formatter.format(searchParameter.getDateTo()) + "')";
+			where = where + " and (t.fecha >= '" + formatterFrom.format(searchParameter.getDateFrom()) + "' and t.fecha <= '"
+					+ formatterTo.format(searchParameter.getDateTo()) + "')";
 		} else {
-			where = where + "(date >= '" + formatter.format(searchParameter.getDateFrom()) + "' and date <= '"
-					+ formatter.format(searchParameter.getDateTo()) + "')";
+			where = where + "(t.fecha >= '" + formatterFrom.format(searchParameter.getDateFrom()) + "' and t.fecha <= '"
+					+ formatterTo.format(searchParameter.getDateTo()) + "')";
 		}
 
-		where = where + " and transactionStatusCode NOT like '%PPP%'  and transactionStatusCode <> '' ";
-
+		System.out.println("QUERY" + query + where);
 		return query + where;
 	}
 
@@ -246,7 +260,7 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 				.setString("codCard", transactionID).uniqueResult();
 		return transaction;
 	}
-	
+
 	public CierreLote getCierre(String transactionIDLongNumber) {
 		Session dbSession = DBHibernateUtil.getSessionFactoryMain();
 		CierreLote cierre = (CierreLote) dbSession
