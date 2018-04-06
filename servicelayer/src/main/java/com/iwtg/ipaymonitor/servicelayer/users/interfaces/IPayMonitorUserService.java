@@ -34,4 +34,6 @@ public interface IPayMonitorUserService {
 
 	boolean removeCardbrandForUser(final Integer userID, final String cardbrandID);
 
+	boolean login(final String userName, final String passEncrptyed);
+
 }

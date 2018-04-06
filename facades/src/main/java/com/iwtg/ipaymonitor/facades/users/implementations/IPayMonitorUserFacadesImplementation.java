@@ -107,4 +107,8 @@ public class IPayMonitorUserFacadesImplementation implements IPayMonitorUserFaca
 		}
 	}
 
+	public boolean login(String userName, String passEncrptyed) {
+		return userServices.login(userName, passEncrptyed);
+	}
+
 }

@@ -11,7 +11,6 @@ import com.iwtg.ipaymonitor.datalayer.model.CanalHasUsuarios;
 import com.iwtg.ipaymonitor.datalayer.model.CanalHasUsuariosId;
 import com.iwtg.ipaymonitor.datalayer.model.MediopagoHasUsuarios;
 import com.iwtg.ipaymonitor.datalayer.model.MediopagoHasUsuariosId;
-import com.iwtg.ipaymonitor.datalayer.model.Pais;
 import com.iwtg.ipaymonitor.datalayer.model.PaisHasUsuarios;
 import com.iwtg.ipaymonitor.datalayer.model.PaisHasUsuariosId;
 import com.iwtg.ipaymonitor.datalayer.model.Usuarios;
@@ -39,8 +38,7 @@ public class IPayMonitorUserServiceImplementation implements IPayMonitorUserServ
 	}
 
 	public boolean findUser(String nickname, String password) {
-		// TODO Auto-generated method stub
-		return false;
+		return userBO.findUser(nickname, password);
 	}
 
 	public boolean updateUser(Usuarios user) {
@@ -116,6 +114,10 @@ public class IPayMonitorUserServiceImplementation implements IPayMonitorUserServ
 		mhuID.setIdUsuario(userID.intValue());
 		mhu.setId(mhuID);
 		return userBO.removeCardbrandForUser(mhu);
+	}
+
+	public boolean login(String userName, String passEncrptyed) {
+		return findUser(userName, passEncrptyed);
 	}
 
 }

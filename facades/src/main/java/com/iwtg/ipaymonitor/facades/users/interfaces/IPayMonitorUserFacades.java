@@ -31,4 +31,6 @@ public interface IPayMonitorUserFacades {
 
 	boolean removeCardbrandForUser(Integer userID, String cardbrandID);
 
+	boolean login(String userName, String passEncrptyed);
+
 }

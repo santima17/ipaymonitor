@@ -22,6 +22,9 @@
 	<bean id="searchFacades"
 		class="com.iwtg.ipaymonitor.facades.search.implementations.IPayMonitorSearchFacadesImplementation" />
 
+	<bean id="userAuthenticationManager"
+		class="com.iwtg.ipaymonitor.monitor.security.managers.UserAuthenticationManager" />
+
 
 
 </beans>
