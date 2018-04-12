@@ -42,11 +42,18 @@ public class IPayMonitorUserBOImplementation implements IPayMonitorUserBO {
 	public boolean findUser(String nickname, String password) {
 		Usuarios exampleUser = new Usuarios();
 		exampleUser.setUsuario(nickname);
-		exampleUser.setPass(password);	
+		exampleUser.setPass(password);
+		exampleUser.setBaja(false);
+		exampleUser.setAdmin(0);
 		List<Usuarios> resultList = daoServices.getAllByExample(Usuarios.class, exampleUser);
 		if (CollectionUtils.isNotEmpty(resultList)) {
 			return true;
 		}else {
+			exampleUser.setAdmin(1);
+			resultList = daoServices.getAllByExample(Usuarios.class, exampleUser);
+			if (CollectionUtils.isNotEmpty(resultList)) {
+				return true;
+			}
 			return false;
 		}
 	}
