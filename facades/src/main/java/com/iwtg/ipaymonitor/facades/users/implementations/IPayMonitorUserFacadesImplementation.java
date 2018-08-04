@@ -42,6 +42,15 @@ public class IPayMonitorUserFacadesImplementation implements IPayMonitorUserFaca
 			throw new IPayMonitorException("User not found with id:" + id);
 		}
 	}
+	
+	public DataUser getUser(String username) throws IPayMonitorException {
+		Usuarios modelUser = userServices.getUserByNickname(username);
+		if (modelUser != null) {
+			return userConverter.converter(modelUser);
+		} else {
+			throw new IPayMonitorException("User not found with username:" + username);
+		}
+	}
 
 	public boolean updateUser(DataUser user) {
 		return userServices.updateUser(userConverter.deConverter(user));

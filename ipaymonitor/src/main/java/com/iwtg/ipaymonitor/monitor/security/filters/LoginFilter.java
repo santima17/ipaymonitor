@@ -31,12 +31,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(final HttpServletRequest req, final HttpServletResponse res)
 			throws AuthenticationException, IOException, ServletException {
 
-		InputStream body = req.getInputStream();
+		//InputStream body = req.getInputStream();
 
-		User user = new ObjectMapper().readValue(body, User.class);
+		//User user = new ObjectMapper().readValue(body, User.class);
 
-		UsernamePasswordAuthenticationToken userToAuth = new UsernamePasswordAuthenticationToken(user.getUsername(),
-				user.getPassword());
+		UsernamePasswordAuthenticationToken userToAuth = new UsernamePasswordAuthenticationToken(
+				req.getParameter("username"), req.getParameter("password"));
 
 		return getAuthenticationManager().authenticate(userToAuth);
 	}

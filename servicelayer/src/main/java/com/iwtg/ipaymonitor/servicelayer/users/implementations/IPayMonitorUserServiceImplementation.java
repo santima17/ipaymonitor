@@ -33,8 +33,7 @@ public class IPayMonitorUserServiceImplementation implements IPayMonitorUserServ
 	}
 
 	public Usuarios getUserByNickname(String nickname) {
-		// TODO Auto-generated method stub
-		return null;
+		return userBO.getUserByNickname(nickname);
 	}
 
 	public boolean findUser(String nickname, String password) {

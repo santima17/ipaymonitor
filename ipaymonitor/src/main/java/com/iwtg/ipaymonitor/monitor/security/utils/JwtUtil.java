@@ -26,6 +26,7 @@ public class JwtUtil {
 				.signWith(SignatureAlgorithm.HS512, KEY).compact();
 		res.addHeader("Access-Control-Expose-Headers", "Authorization");
 		res.addHeader(TOKEN_HEADER, TOKEN_PREFIX + token);
+		res.addHeader("user", username);
 	}
 
 	// Valída el JWT enviado por el cliente
