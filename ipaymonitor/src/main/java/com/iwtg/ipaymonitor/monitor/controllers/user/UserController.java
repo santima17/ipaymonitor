@@ -62,10 +62,10 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/username/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getUser(@PathVariable String username) {
 		try {
-			ResponseEntity<DataUser> response = new ResponseEntity(userFacades.getUser(username), HttpStatus.OK);
+			ResponseEntity<DataUser> response = new ResponseEntity(userFacades.getUserByUserName(username), HttpStatus.OK);
 			return response;
 		} catch (IPayMonitorException e) {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);

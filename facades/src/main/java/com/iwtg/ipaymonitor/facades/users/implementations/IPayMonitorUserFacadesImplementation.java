@@ -43,7 +43,7 @@ public class IPayMonitorUserFacadesImplementation implements IPayMonitorUserFaca
 		}
 	}
 	
-	public DataUser getUser(String username) throws IPayMonitorException {
+	public DataUser getUserByUserName(String username) throws IPayMonitorException {
 		Usuarios modelUser = userServices.getUserByNickname(username);
 		if (modelUser != null) {
 			return userConverter.converter(modelUser);

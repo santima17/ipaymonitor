@@ -12,6 +12,8 @@ public interface IPayMonitorUserFacades {
 	List<DataUser> getAllUsers() throws IPayMonitorException;
 
 	DataUser getUser(Integer id) throws IPayMonitorException;
+	
+	DataUser getUserByUserName(String username) throws IPayMonitorException;
 
 	boolean updateUser(DataUser user);
 
