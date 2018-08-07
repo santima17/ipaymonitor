@@ -9,12 +9,18 @@ import com.iwtg.ipaymonitor.datalayer.model.Pais;
 
 
 
-public interface IPayMonitorSystemService {
+public interface IPayMonitorSystemService { 
 
 	List<Pais> getAllCountries();
 
 	List<Mediopago> getAllCardBrands();
 
 	List<Canal> getAllChannels();
+
+	List<Pais> getAllCountriesById(Integer id);
+
+	List<Mediopago> getAllCardBrandsById(Integer id);
+
+	List<Canal> getAllChannelsById(Integer id);
 
 }

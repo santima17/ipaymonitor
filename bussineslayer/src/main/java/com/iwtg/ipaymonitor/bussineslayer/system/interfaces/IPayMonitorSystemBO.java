@@ -14,4 +14,11 @@ public interface IPayMonitorSystemBO {
 
 	List<Canal> getAllChannels();
 
+	List<Pais> getAllCountriesById(Integer id);
+
+	List<Mediopago> getAllCardBrandsById(Integer id);
+
+	List<Canal> getAllChannelsById(Integer id);
+
+
 }

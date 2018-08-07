@@ -60,6 +60,11 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 		Session dbSession = DBHibernateUtil.getSessionFactoryMain();
 		return dbSession.get(type, id);
 	}
+	
+	public <T> T get(final Class<T> type, final String id) {
+		Session dbSession = DBHibernateUtil.getSessionFactoryMain();
+		return dbSession.get(type, id);
+	}
 
 	public <T> T merge(final T o) {
 		Session dbSession = DBHibernateUtil.getSessionFactoryMain();

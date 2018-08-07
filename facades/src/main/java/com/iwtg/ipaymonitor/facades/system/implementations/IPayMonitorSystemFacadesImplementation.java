@@ -34,6 +34,15 @@ public class IPayMonitorSystemFacadesImplementation implements IPayMonitorSystem
 			throw new IPayMonitorException("Result list is empty");
 		}
 	}
+	
+	public List<DataCountry> getAllCountriesById(Integer id) throws IPayMonitorException {
+		List<Pais> resultList = systemServices.getAllCountriesById(id);
+		if (CollectionUtils.isNotEmpty(resultList)) {
+			return systemItemConverter.convertAllCountries(resultList);
+		} else {
+			throw new IPayMonitorException("Result list is empty");
+		}
+	}
 
 	public List<DataCardBrand> getAllCardBrands() throws IPayMonitorException {
 		List<Mediopago> resultList = systemServices.getAllCardBrands();
@@ -43,9 +52,27 @@ public class IPayMonitorSystemFacadesImplementation implements IPayMonitorSystem
 			throw new IPayMonitorException("Result list is empty");
 		}
 	}
+	
+	public List<DataCardBrand> getAllCardBrandsById(Integer id) throws IPayMonitorException {
+		List<Mediopago> resultList = systemServices.getAllCardBrandsById(id);
+		if (CollectionUtils.isNotEmpty(resultList)) {
+			return systemItemConverter.convertAllCardBrands(resultList);
+		} else {
+			throw new IPayMonitorException("Result list is empty");
+		}
+	} 
 
 	public List<DataChannel> getAllChannels() throws IPayMonitorException {
 		List<Canal> resultList = systemServices.getAllChannels();
+		if (CollectionUtils.isNotEmpty(resultList)) {
+			return systemItemConverter.convertAllChannels(resultList);
+		} else {
+			throw new IPayMonitorException("Result list is empty");
+		}
+	}
+
+	public List<DataChannel> getAllChannelsById(Integer id) throws IPayMonitorException {
+		List<Canal> resultList = systemServices.getAllChannelsById(id);
 		if (CollectionUtils.isNotEmpty(resultList)) {
 			return systemItemConverter.convertAllChannels(resultList);
 		} else {

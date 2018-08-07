@@ -18,13 +18,29 @@ public class IPayMonitorSystemServiceImplementation implements IPayMonitorSystem
 	public List<Pais> getAllCountries() {
 		return systemBO.getAllCountries();
 	}
+	
+	public List<Pais> getAllCountriesById(Integer id) {
+		return systemBO.getAllCountriesById(id);
+	}
 
 	public List<Mediopago> getAllCardBrands() {
 		return systemBO.getAllCardBrands();
 	}
+	
+	public List<Mediopago> getAllCardBrandsById(Integer id) {
+		return systemBO.getAllCardBrandsById(id);
+	} 
 
 	public List<Canal> getAllChannels() {
 		return systemBO.getAllChannels();
 	}
+
+	public List<Canal> getAllChannelsById(Integer id) {
+		return systemBO.getAllChannelsById(id);
+	}
+
+
+
+	
 
 }

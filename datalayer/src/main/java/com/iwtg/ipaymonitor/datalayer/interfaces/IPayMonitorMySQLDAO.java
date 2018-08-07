@@ -12,6 +12,8 @@ public interface IPayMonitorMySQLDAO {
 	boolean delete(final Object object);
 
 	<T> T get(final Class<T> type, final Integer id);
+	
+	<T> T get(final Class<T> type, final String id);
 
 	<T> T merge(final T o);
 

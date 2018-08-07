@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,9 +43,19 @@ public class SystemController {
 	IPayMonitorUserFacades userFacades;
 	
 	@RequestMapping(value = "/countries", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity getAllContruies() {
+	public ResponseEntity getAllCountries() {
 		try {
 			ResponseEntity<List<DataCountry>> response = new ResponseEntity(systemFacades.getAllCountries(), HttpStatus.OK);
+			return response;
+		} catch (IPayMonitorException e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(value = "/countries/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity getAllCountriesByUser(@PathVariable Integer id) {
+		try {
+			ResponseEntity<List<DataCountry>> response = new ResponseEntity(systemFacades.getAllCountriesById(id), HttpStatus.OK);
 			return response;
 		} catch (IPayMonitorException e) {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -61,10 +72,30 @@ public class SystemController {
 		}
 	}
 	
+	@RequestMapping(value = "/cards/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity getAllCardBrandsByUser(@PathVariable Integer id) {
+		try {
+			ResponseEntity<List<DataCardBrand>> response = new ResponseEntity(systemFacades.getAllCardBrandsById(id), HttpStatus.OK);
+			return response;
+		} catch (IPayMonitorException e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@RequestMapping(value = "/channels", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getAllChannels() {
 		try {
 			ResponseEntity<List<DataChannel>> response = new ResponseEntity(systemFacades.getAllChannels(), HttpStatus.OK);
+			return response;
+		} catch (IPayMonitorException e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(value = "/channels/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity getAllChannelsByUser(@PathVariable Integer id) {
+		try {
+			ResponseEntity<List<DataChannel>> response = new ResponseEntity(systemFacades.getAllChannelsById(id), HttpStatus.OK);
 			return response;
 		} catch (IPayMonitorException e) {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
