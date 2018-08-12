@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<link href="../imgs/favicon.png" rel="shortcut icon" type="image/x-icon" />
+	<title>i-pay | Payment Solutions </title>
+	<meta http-equiv="Content-Type" content="text/html, charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta content="i-pay | Payment Solutions" name="title">
+	<meta content="i-pay | Payment Solutions" name="description">
+	<meta name="Generator" content="Coda 2.6.6">
+	<meta name="Language" content="es">
+	<meta name="Distribution" content="Global">
+	<meta name="Robots" content="All">
+	<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="../css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="page-transactions">
+	
+<!-- modals -->
+	<div class="overlay"></div>
+	<!-- user-password -->
+	<div class="modal" id="user-password">
+		<div class="btn-close icon close small"></div>
+		<div class="content">
+			<header>
+				<h3 class="fs-s fw-bold">Cambio de contraseña</h3>
+			</header>
+			<form method="post" action="#">
+				<ul class="long">
+					<li>
+						<label>Contraseña actual</label>
+						<input type="password" name="password-old" id="password-old" placeholder="************">
+					</li>
+					<li>
+						<label>Nueva contraseña</label>
+						<input type="password" name="password-new" id="password-new" placeholder="************">
+					</li>
+					<li>
+						<label>Repetir nueva contraseña</label>
+						<input type="password" name="repassword-new" id="repassword-new" placeholder="************">
+					</li>
+				</ul>
+				<footer>				
+					<a class="btn blue right" id="change-password">ACEPTAR</a>
+					<a class="btn-close right btn ghost blue">CANCELAR</a>
+				</footer>					
+			</form>
+		</div>
+	</div>
+	
+	<!-- transfer-info -->
+	<div class="modal big" id="transfer-info">
+		<div class="btn-close icon close small"></div>
+		<div class="content">
+			<header>
+				<h3 class="fs-s">CÓDIGO DE OPERACIÓN: <span class="fw-bold">476382937</span></h3>
+			</header>
+			<div class="table fs-xs">
+				<ul>
+					<li class="header fw-bold">
+						<h4>Tramo</h4>
+						<h4>Vía comunicación</h4>
+						<h4>Fecha</h4>
+						<h4>Estado</h4>
+					</li>
+					<li>
+						<div>Ingreso transacción a IWTG</div>
+						<div>https://sdd.aerolineas.com.ar/Mocc10/recibos?pdv=98&nrooperacion=190219694&id_reserva=178409&RESCODE=011</div>
+						<div>14/06/18</div>
+						<div class="icon-wrapper"><span class="icon success small"></span>Transacción Autorizada</div>
+					</li>
+					<li>
+						<div>Ingreso transacción a IWTG</div>
+						<div>https://sdd.aerolineas.com.ar/Mocc10/recibos?pdv=98&nrooperacion=190219694&id_reserva=178409&RESCODE=011</div>
+						<div>14/06/18</div>
+						<div class="icon-wrapper"><span class="icon success small"></span>Transacción Autorizada</div>
+					</li>
+					<li>
+						<div>Petición al VPOS</div>
+						<div>https://sdd.aerolineas.com.ar/Mocc10/recibos?pdv=98&nrooperacion=190219694&id_reserva=178409&RESCODE=011</div>
+						<div>14/06/18</div>
+						<div class="icon-wrapper"><span class="icon close small"></span>Denegado: Tarjeta Inválida</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+<div class="master-wrapper">
+
+	<!-- header.master -->
+	<header class="master">
+		<img src="../imgs/logo.svg" width="128px" height="32px" class="logo left">
+		<div class="user right">
+			<div class="icon-wrapper">
+				<span class="icon user"></span>
+				<p class="fw-bold" id="user-info"></p>
+				<span class="icon bullet-down"></span>
+			</div>
+			<ul class="dropdown">
+				<li class="icon-wrapper btn-modal" data-modal="user-password"><span class="icon edit"></span>Cambiar contraseña</li>
+				<li class="icon-wrapper"><a href="../index.html"><span class="icon logout"></span>Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<!-- nav.master -->
+	<nav class="master">
+		<img src="../imgs/aa_logo.svg" width="212px" height="90px" class="aa-logo">
+		<ul id="main-menu">
+			<li><a href="monitor-transacciones.html" class="icon-wrapper"><span class="icon c-card"></span>Monitor de transacciones</a></li>	
+		</ul>
+		<img src="../imgs/iwtg_powered.svg" height="30px" width="112px" class="iwtg-powered">
+	</nav>
+
+	<!-- main -->
+	<main>
+		<h1 class="fw-bold fs-l blue">Monitor de Transacciones</h1>
+		<section>
+			<form method="post">
+				<ul>
+					<li>
+						<label>Código de Operación</label>
+						<input type="text" name="code-op" id="code-op" placeholder="000000">
+					</li>
+					<li class="dual">
+						<ul>
+							<li class="datepicker">
+								<label>Fecha desde</label>
+								<input type="text" name="date-from" id="date-from" placeholder="00/00/00">
+								<span class="icon calendar"></span>
+							</li>
+							<li class="datepicker">
+								<label>Fecha hasta</label>
+								<input type="text" name="date-to" id="date-to" placeholder="00/00/00">
+								<span class="icon calendar"></span>
+							</li>
+						</ul>
+					</li>
+					<li class="dual">
+						<ul>
+							<li>
+								<label>País</label>
+								<select name="country" id="country" data-placeholder="Seleccionar">
+									<!-- js load -->
+									<option value="">Seleccionar</option>
+									<option>numero 1</option>
+									<option>numero 2</option>
+									<option>numero 3</option>
+									<option>numero 4</option>
+								</select>
+							</li>
+							<li>
+								<label>Estado</label>
+								<select name="state" id="state" data-placeholder="Seleccionar">
+									<!-- js load -->
+									<option value="">Seleccionar</option>
+									<option>numero 1</option>
+									<option>numero 2</option>
+									<option>numero 3</option>
+									<option>numero 4</option>
+								</select>
+							</li>
+						</ul>
+					</li>
+					<li class="dual">
+						<ul>
+							<li>
+								<label>Canal</label>
+								<select name="channel" id="channel" data-placeholder="Seleccionar">
+									<!-- js load -->
+									<option value="">Seleccionar</option>
+									<option>numero 1</option>
+									<option>numero 2</option>
+									<option>numero 3</option>
+									<option>numero 4</option>
+								</select>
+							</li>
+							<li>
+								<label>Moneda</label>
+								<select name="currency" id="currency" data-placeholder="Seleccionar">
+									<!-- js load -->
+									<option value="">Seleccionar</option>
+									<option>numero 1</option>
+									<option>numero 2</option>
+									<option>numero 3</option>
+									<option>numero 4</option>
+								</select>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<label>Documento</label>
+						<input type="text" name="document" id="document" placeholder="462736">
+					</li>
+					<li class="dual">
+						<ul>
+							<li>
+								<input type="submit" class="btn blue" value="BUSCAR">
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</form>
+		</section>
+		<section>
+			<header class="slave">
+				<h2 class="left">RESULTADOS: <span class="fw-bold">3 transacciones</span></h2>
+				<a class="right btn text">Descargar Excel<span class="icon download right"></a>
+			</header>
+			<div class="table fs-s">
+				<ul>
+					<li class="header fw-bold">
+						<h4>Operación</h4>
+						<h4>Fecha</h4>
+						<h4>Estado</h4>
+						<h4>Tarjeta</h4>
+						<h4>Número</h4>
+						<h4>Canal</h4>
+						<h4>País</h4>
+						<h4>Monto</h4>
+						<h4>Moneda</h4>
+					</li>
+					<li class="btn-modal" data-modal="transfer-info">
+						<div>
+							<div class="actions">
+								<span class="left">0392391</span>
+								<span class="icon info left tooltip">
+									<small>Ver detalle</small>
+								</span>
+							</div>
+						</div>
+						<div>14/06/18</div>
+						<div><span class="icon success small"></span>Transacción Autorizada</div>
+						<div>AMEX</div>
+						<div>2123******3918</div>
+						<div>Web</div>
+						<div>US</div>
+						<div>50,00</div>
+						<div>UYU</div>
+					</li>
+					<li class="btn-modal" data-modal="transfer-info">
+						<div>
+							<div class="actions">
+								<span class="left">0392391</span>
+								<span class="icon info left tooltip">
+									<small>Ver detalle</small>
+								</span>
+							</div>
+						</div>
+						<div>14/06/18</div>
+						<div><span class="icon close small"></span>Denegado: Tarjeta Inválida</div>
+						<div>Master Card</div>
+						<div>2123******3918</div>
+						<div>Web</div>
+						<div>US</div>
+						<div>454,65</div>
+						<div>UYU</div>
+					</li>
+					<li class="btn-modal" data-modal="transfer-info">
+						<div>
+							<div class="actions">
+								<span class="left">0392391</span>
+								<span class="icon info left tooltip">
+									<small>Ver detalle</small>
+								</span>
+							</div>
+						</div>
+						<div>14/06/18</div>
+						<div class="error"><span class="icon error small"></span>Chequear Manualmente</div>
+						<div>VISA</div>
+						<div>2123******3918</div>
+						<div>Web</div>
+						<div>US</div>
+						<div>50,00</div>
+						<div>UYU</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</main>
+	
+</div>
+
+</body>
+
+<script src="../js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../js/select2.full.min.js" type="text/javascript"></script>
+<script src="../js/main.js" type="text/javascript"></script>
+<script src="../js/monitor-load.js" type="text/javascript"></script>
+<script src="../js/users-functions.js" type="text/javascript"></script>
+<script src="../js/notify.min.js" type="text/javascript"></script>
+
+</html>

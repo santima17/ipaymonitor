@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<link href="../imgs/favicon.png" rel="shortcut icon" type="image/x-icon" />
+	<title>i-pay | Payment Solutions</title>
+	<meta http-equiv="Content-Type" content="text/html, charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta content="i-pay | Payment Solutions" name="title">
+	<meta content="i-pay | Payment Solutions" name="description">
+	<meta name="Generator" content="Coda 2.6.6">
+	<meta name="Language" content="es">
+	<meta name="Distribution" content="Global">
+	<meta name="Robots" content="All">
+	<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="../css/select2.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="page-graphs">
+	
+<!-- modals -->
+	<div class="overlay"></div>
+	<!-- user-password -->
+	<div class="modal" id="user-password">
+		<div class="btn-close icon close small"></div>
+		<div class="content">
+			<header>
+				<h3 class="fs-s fw-bold">Cambio de contraseña</h3>
+			</header>
+			<form method="post">
+				<ul class="long">
+					<li>
+						<label>Contraseña actual</label>
+						<input type="password" name="password-old" id="password-old" placeholder="************">
+					</li>
+					<li>
+						<label>Nueva contraseña</label>
+						<input type="password" name="password-new" id="password-new" placeholder="************">
+					</li>
+					<li>
+						<label>Repetir nueva contraseña</label>
+						<input type="password" name="repassword-new" id="repassword-new" placeholder="************">
+					</li>
+				</ul>
+				<footer>				
+					<input type="submit" class="btn blue right" value="ACEPTAR">
+					<a class="btn-close right btn ghost blue">CANCELAR</a>
+				</footer>			
+			</form>
+		</div>
+	</div>
+	
+<div class="master-wrapper">
+	<div class="notification-master">
+		<span class="icon status ok"></span>
+		<span class="icon close white small"></span>	
+		<p>Su contraseña ha sido cambiada con éxito</p>
+	</div>
+	
+	<!-- header.master -->
+	<header class="master">
+		<img src="../imgs/logo.svg" width="128px" height="32px" class="logo left">
+		<div class="user right">
+			<div class="icon-wrapper">
+				<span class="icon user"></span>
+				<p class="fw-bold">Juan Salazar</p>
+				<span class="icon bullet-down"></span>
+			</div>
+			<ul class="dropdown">
+				<li class="icon-wrapper btn-modal" data-modal="user-password"><span class="icon edit"></span>Cambiar contraseña</li>
+				<li class="icon-wrapper"><a href="../index.html"><span class="icon logout"></span>Cerrar sesión</a></li>
+			</ul>
+		</div>
+	</header>
+	
+	<!-- nav.master -->
+	<nav class="master">
+		<img src="../imgs/aa_logo.svg" width="212px" height="90px" class="aa-logo">
+		<ul>
+			<li><a href="monitor-transacciones.html" class="icon-wrapper"><span class="icon c-card"></span>Monitor de transacciones</a></li>
+			<li><a href="usuarios.html" class="icon-wrapper"><span class="icon user"></span>Gestión de usuarios</a></li>
+			<li><a href="estadisticas.html" class="icon-wrapper"><span class="icon graph"></span>Estadísticas</a></li>
+		</ul>
+		<img src="../imgs/iwtg_powered.svg" height="30px" width="112px" class="iwtg-powered">
+	</nav>
+
+	<!-- main -->
+	<main>
+		<h1 class="fw-bold fs-l blue">Estadísticas</h1>
+	</main>
+	
+</div>
+
+</body>
+
+<script src="../js/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="../js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../js/select2.full.min.js" type="text/javascript"></script>
+<script src="../js/main.js" type="text/javascript"></script>
+
+</html>
