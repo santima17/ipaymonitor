@@ -4,5 +4,4 @@ $(document).ready(function(){
     getUserByUserName(userName, token);
     getAllUsers(token);
 
-    
 });

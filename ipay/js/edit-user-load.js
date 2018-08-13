@@ -8,6 +8,7 @@ $(document).ready(function(){
 	var userID = urlParams.get('userID');
     getUserByUserID(userID, token);
 
+
     getAllCountries(token, 'user');
     getAllCountriesByUser(token, userID, 'user');
 	getAllChannels(token, 'user');

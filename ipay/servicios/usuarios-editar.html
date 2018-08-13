@@ -97,7 +97,7 @@
 	<main>
 		<h1 class="fw-bold fs-l blue">Editar usuario</h1>
 		<section>
-			<form method="post">
+			<form >
 				<ul class="long">
 					<li>
 						<label>Nombre</label>
@@ -113,28 +113,28 @@
 					</li>
 					<li>
 						<label>Contraseña</label>
-						<input type="password" name="user-password" id="user-password" placeholder="Contraseña">
+						<input type="password" name="user-password-e" id="user-password-e" placeholder="Contraseña">
 					</li>
 					<li class="checkbox-wrapper">
 						<input type="checkbox" name="user-super" id="user-super">
 						<label for="user-super"></label>
 						<p>Super usuario</p>
 					</li>
-					<li>
+					<li id="user-countries-li">
 						<label>Países asignados</label>
 						<select name="user-countries" id="user-countries" data-placeholder="Seleccionar países" multiple="multiple">
 							<!-- js load -->
 							<option value="">Seleccionar</option>
 						</select>
 					</li>
-					<li>
+					<li id="user-payments-li">
 						<label>Medios de pagos asignados</label>
 						<select name="user-payments" id="user-payments" data-placeholder="Seleccionar medios" multiple="multiple">
 							<!-- js load -->
 							<option value="">Seleccionar</option>
 						</select>
 					</li>
-					<li>
+					<li id="user-channels-li">
 						<label>Canales asignados</label>
 						<select name="user-channels" id="user-channels" data-placeholder="Seleccionar canales" multiple="multiple">
 							<!-- js load -->
@@ -142,7 +142,7 @@
 						</select>
 					</li>					
 					<li>						
-						<input type="submit" class="btn blue right" value="GUARDAR">
+						<a class="btn blue right cancel" id="edit-user-form">GUARDAR</a>
 						<a class="btn ghost blue right cancel btn-modal" data-modal="changes-discard">CANCELAR</a>
 					</li>
 				</ul>

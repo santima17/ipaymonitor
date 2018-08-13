@@ -5,6 +5,7 @@ function getAllCountries(token, page){
             'Authorization': 'TOKEN:' + token,
         },
         type: "GET",
+        async: false,
         success: function (data, textStatus, response) {
             if(page == 'user'){
                 fillCountriesSelect(data);
@@ -23,8 +24,9 @@ function getAllCountriesByUser(token, userID, page){
             'Authorization': 'TOKEN:' + token,
         },
         type: "GET",
+        async: false,
         success: function (data, textStatus, response) {
-
+        	fillCountriesSelected(data);
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -33,11 +35,52 @@ function getAllCountriesByUser(token, userID, page){
 }
 
 function fillCountriesSelect(countries){
+
+    var countriesMap = new Map();
+
     for(var i = 0; i < countries.length; i++){
          $("#user-countries").append(
             '<option value="'+countries[i].id+'">'+countries[i].name+'</option>'
          );
+
+         countriesMap.set(countries[i].name, countries[i]);
+
     }
+    
+    localStorage.setItem("countries", countriesMap);
+}
+
+function fillCountriesSelected(countries){
+
+    var countriesSelectedMap = new Map();
+
+    var userLiSpan = $("#user-countries-li").find("span")[0];
+    $(userLiSpan).removeClass("select2 select2-container select2-container--default select2-container--below select2-container--focus");
+	$(userLiSpan).addClass("select2 select2-container select2-container--default select2-container--focus select2-container--above");
+    
+    var userUl = $("#user-countries-li").find("ul")[0];
+    $(userUl).empty();
+
+
+    for(var i = 0; i < countries.length; i++){
+
+        $(userUl).append(
+			'<li class="select2-selection__choice" title="'+countries[i].name+'" data-select2-id="'+countries[i].name+countries[i].id+'">'+
+            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ countries[i].name+
+            '</li>'
+        );
+
+        countriesSelectedMap.set(countries[i].name, countries[i]);
+
+    }
+
+    $(userUl).append(
+    		'<li class="select2-search select2-search--inline">'+
+            	'<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
+    
+    localStorage.setItem("countriesSelectedMap", countriesSelectedMap);
 }
 
 function getAllCards(token, page){
@@ -66,7 +109,7 @@ function getAllCardsByUser(token, userID, page){
         },
         type: "GET",
         success: function (data, textStatus, response) {
-             
+             fillCardsSelected(data);
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -74,12 +117,53 @@ function getAllCardsByUser(token, userID, page){
     });
 }
 
-function fillCardsSelect(countries){
-    for(var i = 0; i < countries.length; i++){
+function fillCardsSelect(cards){
+
+	var cardsMap = new Map();
+
+    for(var i = 0; i < cards.length; i++){
          $("#user-payments").append(
-            '<option value="'+countries[i].id+'">'+countries[i].name+'</option>'
+            '<option value="'+cards[i].id+'">'+cards[i].name+'</option>'
          );
+
+         cardsMap.set(cards[i].name, cards[i]);
     }
+
+    localStorage.setItem("cardsMap", cardsMap);
+}
+
+function fillCardsSelected(cards){
+
+	var cardsSelectedMap = new Map();
+
+    var userLiSpan = $("#user-payments-li").find("span")[0];
+    $(userLiSpan).removeClass("select2 select2-container select2-container--default select2-container--below select2-container--focus");
+	$(userLiSpan).addClass("select2 select2-container select2-container--default select2-container--focus select2-container--above");
+    
+    var userUl = $("#user-payments-li").find("ul")[0];
+    $(userUl).empty();
+
+
+    for(var i = 0; i < cards.length; i++){
+
+        $(userUl).append(
+			'<li class="select2-selection__choice" title="'+cards[i].name+'" data-select2-id="'+cards[i].name+cards[i].id+'">'+
+            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ cards[i].name+
+            '</li>'
+        );
+
+        cardsSelectedMap.set(cards[i].name, cards[i]);
+
+    }
+
+    $(userUl).append(
+    		'<li class="select2-search select2-search--inline">'+
+            	'<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
+    
+    localStorage.setItem("cardsSelectedMap", cardsSelectedMap);
+
 }
 
 function getAllChannels(token, page){
@@ -108,6 +192,7 @@ function getAllChannelsByUser(token, userID, page){
         },
         type: "GET",
         success: function (data, textStatus, response) {
+        	fillChannelsSelected(data);
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -115,13 +200,184 @@ function getAllChannelsByUser(token, userID, page){
     });
 }
 
-function fillChannelsSelect(countries){
-    for(var i = 0; i < countries.length; i++){
+function fillChannelsSelect(channels){
+
+	var channelsMap = new Map();
+
+    for(var i = 0; i < channels.length; i++){
          $("#user-channels").append(
-            '<option value="'+countries[i].id+'">'+countries[i].name+'</option>'
+            '<option value="'+channels[i].id+'">'+channels[i].name+'</option>'
          );
+         channelsMap.set(channels[i].name, channels[i]);
     }
+
+    localStorage.setItem("channelsMap", channelsMap);
 }
+
+function fillChannelsSelected(channels){
+
+	var channelsSelectedMap = new Map();
+
+    var userLiSpan = $("#user-channels-li").find("span")[0];
+    $(userLiSpan).removeClass("select2 select2-container select2-container--default select2-container--below select2-container--focus");
+	$(userLiSpan).addClass("select2 select2-container select2-container--default select2-container--focus select2-container--above");
+    
+    var userUl = $("#user-channels-li").find("ul")[0];
+    $(userUl).empty();
+
+
+    for(var i = 0; i < channels.length; i++){
+
+        $(userUl).append(
+			'<li class="select2-selection__choice" title="'+channels[i].name+'" data-select2-id="'+channels[i].name+channels[i].id+'">'+
+            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ channels[i].name+
+            '</li>'
+        );
+
+        channelsSelectedMap.set(channels[i].name, channels[i]);
+
+    }
+
+    $(userUl).append(
+    		'<li class="select2-search select2-search--inline">'+
+            	'<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
+    
+    localStorage.setItem("channelsSelectedMap", channelsSelectedMap);
+    
+}
+
+function addCountryByUser(token, userID, countryID){
+	var data = createUpdateInformation(userID, countryID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/addCountry",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "POST",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function addCardByUser(token, userID, cardID){
+	var data = createUpdateInformation(userID, cardID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/addCard",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "POST",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function addChannelByUser(token, userID, channelID){
+	var data = createUpdateInformation(userID, channelID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/addChannel",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "POST",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function removeCountryByUser(token, userID, countryID){
+	var data = createUpdateInformation(userID, countryID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/removeCountry",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "DELETE",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function removeCardByUser(token, userID, cardID){
+	var data = createUpdateInformation(userID, cardID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/removeCard",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "DELETE",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function removeChannelByUser(token, userID, channelID){
+	var data = createUpdateInformation(userID, channelID);
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/system/removeChannel",
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "DELETE",
+        data: data,
+        processData: true,
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+        	
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
+function createUpdateInformation(userID, itemID){
+	return '{"userID":"' + userID + '", "itemID":"' + itemID + '"}';
+}
+
 
 function handlerError(response){
     if(response.status == '403') {

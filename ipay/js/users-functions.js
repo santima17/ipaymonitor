@@ -6,6 +6,32 @@ $("#delete_user").click(function(){
     alert($(this).attr('id'));
 });
 
+$( "#edit-user-form" ).click(function(){
+    var token = localStorage.getItem("token").substring(6);
+    var user = JSON.parse(createUserInformation(false));
+    sendUser(user, token);
+});
+
+$( "#new-user-form" ).click(function(){
+    var token = localStorage.getItem("token").substring(6);
+    var user = JSON.parse(createUserInformation(true));
+    sendNewUser(user, token);
+});
+
+function createUserInformation(sendNewUser){
+    var id = $("#user-id").val();
+    if(sendNewUser == true){
+        id = "";
+    }
+    var name = $("#user-name").val();
+    var lastName = $("#user-lastname").val();
+    var username = $("#user-username").val();
+    var password = $("#user-password-e").val();
+    var isAdmin = $("#user-super:checked").length;
+    var json = '{"id":"'+id+'","user":"'+username+'","password":"'+password+'","name":"'+name+'","lastName":"'+lastName+'","isAdmin":'+isAdmin+',"deleted":false,"deleteReason":""}';
+    return json;
+}
+
 function changePassword(){
     var changePassword = true;
     var passwordOld = '';
@@ -143,7 +169,8 @@ function getUserByUserID(userID, token){
             $("#user-name").val(data.name);
             $("#user-lastname").val(data.lastName);
             $("#user-username").val(data.user);
-            $("#user-password").val(data.password);
+            $("#user-password-e").val(data.password);
+            $("#edit-user-form").append('<input type="hidden" id="user-id" value="'+userID+'">');
             if(data.isAdmin == 1){
                 $("#user-super").prop('checked', true);
             }
@@ -212,3 +239,4 @@ function handlerError(response){
         window.location = "../index.html";
     }
 }
+

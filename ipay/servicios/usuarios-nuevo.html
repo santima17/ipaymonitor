@@ -97,7 +97,7 @@
 	<main>
 		<h1 class="fw-bold fs-l blue">Nuevo usuario</h1>
 		<section>
-			<form action="save();">
+			<form >
 				<ul class="long">
 					<li>
 						<label>Nombre</label>
@@ -113,7 +113,7 @@
 					</li>
 					<li>
 						<label>Contraseña</label>
-						<input type="password" name="user-password" id="user-password" placeholder="Contraseña">
+						<input type="password" name="user-password-e" id="user-password-e" placeholder="Contraseña">
 					</li>
 					<li class="checkbox-wrapper">
 						<input type="checkbox" name="user-super" id="user-super">
@@ -142,7 +142,7 @@
 						</select>
 					</li>
 					<li>						
-						<input type="submit" class="btn blue right" value="GUARDAR">
+						<a class="btn blue right cancel" id="new-user-form">GUARDAR</a>
 						<a class="btn ghost blue right cancel btn-modal" data-modal="changes-discard">CANCELAR</a>
 					</li>
 				</ul>
