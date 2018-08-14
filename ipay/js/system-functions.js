@@ -44,10 +44,9 @@ function fillCountriesSelect(countries){
          );
 
          countriesMap.set(countries[i].name, countries[i]);
-
+      
     }
-    
-    localStorage.setItem("countries", countriesMap);
+    localStorage.setItem("countriesMap", JSON.stringify([...countriesMap]));
 }
 
 function fillCountriesSelected(countries){
@@ -80,7 +79,7 @@ function fillCountriesSelected(countries){
             '</li>'
         );
     
-    localStorage.setItem("countriesSelectedMap", countriesSelectedMap);
+    localStorage.setItem("countriesSelectedMap", JSON.stringify([...countriesSelectedMap]));
 }
 
 function getAllCards(token, page){
@@ -129,7 +128,7 @@ function fillCardsSelect(cards){
          cardsMap.set(cards[i].name, cards[i]);
     }
 
-    localStorage.setItem("cardsMap", cardsMap);
+    localStorage.setItem("cardsMap", JSON.stringify([...cardsMap]));
 }
 
 function fillCardsSelected(cards){
@@ -162,7 +161,7 @@ function fillCardsSelected(cards){
             '</li>'
         );
     
-    localStorage.setItem("cardsSelectedMap", cardsSelectedMap);
+    localStorage.setItem("cardsSelectedMap", JSON.stringify([...cardsSelectedMap]));
 
 }
 
@@ -211,7 +210,7 @@ function fillChannelsSelect(channels){
          channelsMap.set(channels[i].name, channels[i]);
     }
 
-    localStorage.setItem("channelsMap", channelsMap);
+    localStorage.setItem("channelsMap", JSON.stringify([...channelsMap]));
 }
 
 function fillChannelsSelected(channels){
@@ -244,7 +243,8 @@ function fillChannelsSelected(channels){
             '</li>'
         );
     
-    localStorage.setItem("channelsSelectedMap", channelsSelectedMap);
+
+    localStorage.setItem("channelsSelectedMap", JSON.stringify([...channelsSelectedMap]));
     
 }
 
@@ -257,8 +257,8 @@ function addCountryByUser(token, userID, countryID){
         },
         type: "POST",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -278,8 +278,8 @@ function addCardByUser(token, userID, cardID){
         },
         type: "POST",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -299,8 +299,8 @@ function addChannelByUser(token, userID, channelID){
         },
         type: "POST",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -320,8 +320,8 @@ function removeCountryByUser(token, userID, countryID){
         },
         type: "DELETE",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -341,8 +341,8 @@ function removeCardByUser(token, userID, cardID){
         },
         type: "DELETE",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -362,8 +362,8 @@ function removeChannelByUser(token, userID, channelID){
         },
         type: "DELETE",
         data: data,
+        dataType: 'html',
         processData: true,
-        dataType: 'json',
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
