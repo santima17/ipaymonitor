@@ -123,18 +123,18 @@
 				<ul>
 					<li>
 						<label>Código de Operación</label>
-						<input type="text" name="code-op" id="code-op" placeholder="000000">
+						<input type="text" name="code-op" id="code-op" >
 					</li>
 					<li class="dual">
 						<ul>
 							<li class="datepicker">
 								<label>Fecha desde</label>
-								<input type="text" name="date-from" id="date-from" placeholder="00/00/00">
+								<input type="text" name="date-from" id="date-from">
 								<span class="icon calendar"></span>
 							</li>
 							<li class="datepicker">
 								<label>Fecha hasta</label>
-								<input type="text" name="date-to" id="date-to" placeholder="00/00/00">
+								<input type="text" name="date-to" id="date-to">
 								<span class="icon calendar"></span>
 							</li>
 						</ul>
@@ -146,10 +146,6 @@
 								<select name="country" id="country" data-placeholder="Seleccionar">
 									<!-- js load -->
 									<option value="">Seleccionar</option>
-									<option>numero 1</option>
-									<option>numero 2</option>
-									<option>numero 3</option>
-									<option>numero 4</option>
 								</select>
 							</li>
 							<li>
@@ -157,10 +153,11 @@
 								<select name="state" id="state" data-placeholder="Seleccionar">
 									<!-- js load -->
 									<option value="">Seleccionar</option>
-									<option>numero 1</option>
-									<option>numero 2</option>
-									<option>numero 3</option>
-									<option>numero 4</option>
+									<option value="Autorizado">Autorizado</option>
+									<option value="Denegado">Denegado</option>
+									<option value="Cancelado">Cancelado</option>
+									<option value="Devuelto">Devuelto</option>
+
 								</select>
 							</li>
 						</ul>
@@ -172,10 +169,6 @@
 								<select name="channel" id="channel" data-placeholder="Seleccionar">
 									<!-- js load -->
 									<option value="">Seleccionar</option>
-									<option>numero 1</option>
-									<option>numero 2</option>
-									<option>numero 3</option>
-									<option>numero 4</option>
 								</select>
 							</li>
 							<li>
@@ -183,22 +176,32 @@
 								<select name="currency" id="currency" data-placeholder="Seleccionar">
 									<!-- js load -->
 									<option value="">Seleccionar</option>
-									<option>numero 1</option>
-									<option>numero 2</option>
-									<option>numero 3</option>
-									<option>numero 4</option>
+									<option value="840">Dolares</option>
+									<option value="000">Euros</option>
+									<option value="001">Peso Argentino</option>
 								</select>
 							</li>
 						</ul>
 					</li>
-					<li>
-						<label>Documento</label>
-						<input type="text" name="document" id="document" placeholder="462736">
+					<li class="dual">
+						<ul>
+							<li>
+								<label>Documento</label>
+								<input type="text" name="document" id="document">
+							</li>
+							<li>
+								<label>Medio de Pago</label>
+								<select name="medioPago" id="medioPago" data-placeholder="Seleccionar">
+									<!-- js load -->
+									<option value="">Seleccionar</option>
+								</select>
+							</li>
+						</ul>
 					</li>
 					<li class="dual">
 						<ul>
 							<li>
-								<input type="submit" class="btn blue" value="BUSCAR">
+								<input type="button" id="search" class="btn blue" value="BUSCAR">
 							</li>
 						</ul>
 					</li>
@@ -207,7 +210,7 @@
 		</section>
 		<section>
 			<header class="slave">
-				<h2 class="left">RESULTADOS: <span class="fw-bold">3 transacciones</span></h2>
+				<h2 class="left">RESULTADOS: <span class="fw-bold trans"></span></h2>
 				<a class="right btn text">Descargar Excel<span class="icon download right"></a>
 			</header>
 			<div class="table fs-s">
@@ -222,60 +225,6 @@
 						<h4>País</h4>
 						<h4>Monto</h4>
 						<h4>Moneda</h4>
-					</li>
-					<li class="btn-modal" data-modal="transfer-info">
-						<div>
-							<div class="actions">
-								<span class="left">0392391</span>
-								<span class="icon info left tooltip">
-									<small>Ver detalle</small>
-								</span>
-							</div>
-						</div>
-						<div>14/06/18</div>
-						<div><span class="icon success small"></span>Transacción Autorizada</div>
-						<div>AMEX</div>
-						<div>2123******3918</div>
-						<div>Web</div>
-						<div>US</div>
-						<div>50,00</div>
-						<div>UYU</div>
-					</li>
-					<li class="btn-modal" data-modal="transfer-info">
-						<div>
-							<div class="actions">
-								<span class="left">0392391</span>
-								<span class="icon info left tooltip">
-									<small>Ver detalle</small>
-								</span>
-							</div>
-						</div>
-						<div>14/06/18</div>
-						<div><span class="icon close small"></span>Denegado: Tarjeta Inválida</div>
-						<div>Master Card</div>
-						<div>2123******3918</div>
-						<div>Web</div>
-						<div>US</div>
-						<div>454,65</div>
-						<div>UYU</div>
-					</li>
-					<li class="btn-modal" data-modal="transfer-info">
-						<div>
-							<div class="actions">
-								<span class="left">0392391</span>
-								<span class="icon info left tooltip">
-									<small>Ver detalle</small>
-								</span>
-							</div>
-						</div>
-						<div>14/06/18</div>
-						<div class="error"><span class="icon error small"></span>Chequear Manualmente</div>
-						<div>VISA</div>
-						<div>2123******3918</div>
-						<div>Web</div>
-						<div>US</div>
-						<div>50,00</div>
-						<div>UYU</div>
 					</li>
 				</ul>
 			</div>
@@ -293,5 +242,6 @@
 <script src="../js/monitor-load.js" type="text/javascript"></script>
 <script src="../js/users-functions.js" type="text/javascript"></script>
 <script src="../js/notify.min.js" type="text/javascript"></script>
-
+<script src="../js/system-functions.js" type="text/javascript"></script>
+<script src="../js/search.js" type="text/javascript"></script>
 </html>

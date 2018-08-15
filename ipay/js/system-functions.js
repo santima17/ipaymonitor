@@ -9,6 +9,8 @@ function getAllCountries(token, page){
         success: function (data, textStatus, response) {
             if(page == 'user'){
                 fillCountriesSelect(data);
+            }else if(page == 'monitor'){
+				fillCountriesMonitor(data);
             }
         },
         error: function(response, textStatus, errorThrown) {
@@ -48,6 +50,17 @@ function fillCountriesSelect(countries){
     }
     localStorage.setItem("countriesMap", JSON.stringify([...countriesMap]));
 }
+
+function fillCountriesMonitor(countries){
+
+    for(var i = 0; i < countries.length; i++){
+         $("#country").append(
+            '<option value="'+countries[i].id+'">'+countries[i].name+'</option>'
+         );
+      
+    }
+}
+
 
 function fillCountriesSelected(countries){
 
@@ -90,8 +103,10 @@ function getAllCards(token, page){
         },
         type: "GET",
         success: function (data, textStatus, response) {
-             if(page == 'user'){
+            if(page == 'user'){
                 fillCardsSelect(data);
+            }else if(page == 'monitor'){
+				fillCardsMonitor(data);
             }
         },
         error: function(response, textStatus, errorThrown) {
@@ -130,6 +145,17 @@ function fillCardsSelect(cards){
 
     localStorage.setItem("cardsMap", JSON.stringify([...cardsMap]));
 }
+
+function fillCardsMonitor(cards){
+	
+    for(var i = 0; i < cards.length; i++){
+         $("#medioPago").append(
+            '<option value="'+cards[i].id+'">'+cards[i].name+'</option>'
+         );
+
+    }
+}
+
 
 function fillCardsSelected(cards){
 
@@ -173,8 +199,10 @@ function getAllChannels(token, page){
         },
         type: "GET",
         success: function (data, textStatus, response) {
-             if(page == 'user'){
+            if(page == 'user'){
                 fillChannelsSelect(data);
+            }else if(page == 'monitor'){
+            	fillChannelsMonitor(data);
             }
         },
         error: function(response, textStatus, errorThrown) {
@@ -211,6 +239,16 @@ function fillChannelsSelect(channels){
     }
 
     localStorage.setItem("channelsMap", JSON.stringify([...channelsMap]));
+}
+
+function fillChannelsMonitor(channels){
+
+    for(var i = 0; i < channels.length; i++){
+         $("#channel").append(
+            '<option value="'+channels[i].id+'">'+channels[i].name+'</option>'
+         );
+    }
+
 }
 
 function fillChannelsSelected(channels){
