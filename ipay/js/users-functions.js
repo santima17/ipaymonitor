@@ -2,10 +2,6 @@ $("#change-password").click(function(){
     changePassword();
 });
 
-$("#delete_user").click(function(){
-    alert($(this).attr('id'));
-});
-
 $( "#edit-user-form" ).click(function(){
 
     $("#user-name").removeAttr('style');
@@ -48,7 +44,6 @@ $( "#edit-user-form" ).click(function(){
         var user = JSON.parse(createUserInformation(false));
         sendUser(user, token);
 
-        user = JSON.parse(localStorage.getItem("userForAddInfo"));  
         var countries = $("#user-countries-li").find("li.select2-selection__choice");
         for(var i = 0; i < countries.length; i++){
             var name = $(countries[i]).attr("title");

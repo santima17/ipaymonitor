@@ -59,11 +59,42 @@ $(document).ready(function(){
     localStorage.setItem("countriesSelectedMap", JSON.stringify([...countriesSelectedMap]));
     getAllCountriesByUser(token, userID, 'user');
 
+  }),
+
+  $('body').on('change', '#user-countries', function(){
+
+  	var itemVal = $(this).val();
+  	var itemName = serchName(itemVal, 'country');
+  	var exist = isSelected(itemName, 'country');
+  	var page = $('#edit-user-page').val();
+	if(page != null && page == 'ok'){
+	   	completeCountriesSelected();
+	}
+	deleteItem(itemName, 'country');
+
+  }),
+
+  $('body').on('change', '#user-payments', function(){
+  	var itemVal = $(this).val();
+  	var itemName = serchName(itemVal, 'card');
+  	var exist = isSelected(itemName, 'card');
+  	var page = $('#edit-user-page').val();
+    if(page != null && page == 'ok'){
+    	completeCardsSelected();
+    }
+	deleteItem(itemName, 'card');
+  }),
+
+  $('body').on('change', '#user-channels', function(){
+  	var itemVal = $(this).val();
+  	var itemName = serchName(itemVal, 'channel');
+  	var exist = isSelected(itemName, 'channel');
+  	var page = $('#edit-user-page').val();
+    if(page != null && page == 'ok'){
+    	completeChannelsSelected();
+    }
+	deleteItem(itemName, 'channel');
   })
-
-
-
-  
 })
 
 

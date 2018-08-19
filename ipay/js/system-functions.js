@@ -99,6 +99,25 @@ function fillCountriesSelected(countries){
     localStorage.setItem("countriesSelectedMap", JSON.stringify([...countriesSelectedMap]));
 }
 
+function completeCountriesSelected(){
+    var countriesSelectedMap = new Map(JSON.parse(localStorage.getItem("countriesSelectedMap")));
+    var userUl = $("#user-countries-li").find("ul")[0];
+    for(var [name, item] of countriesSelectedMap){
+        $(userUl).append(
+            '<li class="select2-selection__choice" title="'+name+'" data-select2-id="'+name+item.id+'">'+
+                '<span id="'+name+'" class="select2-selection__choice__remove removeCountry" role="presentation">×</span>'+name+
+            '</li>'
+        );
+    }
+    var firstLi = $(userUl).find(".select2-search.select2-search--inline")[0];
+    $(firstLi).remove();
+    $(userUl).append(
+            '<li class="select2-search select2-search--inline">'+
+                '<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
+}
+
 function getAllCards(token, page){
     $.ajax({
         url: "http://localhost:8080/ipaymonitor/system/cards",
@@ -156,6 +175,7 @@ function fillCardsSelect(cards){
 function fillCardsMonitor(cards){
 	
     for(var i = 0; i < cards.length; i++){
+
          $("#medioPago").append(
             '<option value="'+cards[i].id+'">'+cards[i].name+'</option>'
          );
@@ -195,6 +215,30 @@ function fillCardsSelected(cards){
         );
     
     localStorage.setItem("cardsSelectedMap", JSON.stringify([...cardsSelectedMap]));
+
+}
+
+function completeCardsSelected(cards){
+
+    var cardsSelectedMap = new Map(JSON.parse(localStorage.getItem("cardsSelectedMap")));
+    var userUl = $("#user-payments-li").find("ul")[0];
+    for(var [name, item] of cardsSelectedMap){
+
+        $(userUl).append(
+            '<li class="select2-selection__choice" title="'+name+'" data-select2-id="'+name+item.id+'">'+
+                '<span id="'+name+'" class="select2-selection__choice__remove removeCard" role="presentation">×</span>'+ name+
+            '</li>'
+        );
+
+    }
+
+    var firstLi = $(userUl).find(".select2-search.select2-search--inline")[0];
+    $(firstLi).remove();
+    $(userUl).append(
+            '<li class="select2-search select2-search--inline">'+
+                '<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
 
 }
 
@@ -294,6 +338,83 @@ function fillChannelsSelected(channels){
 
     localStorage.setItem("channelsSelectedMap", JSON.stringify([...channelsSelectedMap]));
     
+}
+
+function completeChannelsSelected(){
+
+    var channelsSelectedMap = new Map(JSON.parse(localStorage.getItem("channelsSelectedMap")));
+    
+    var userUl = $("#user-channels-li").find("ul")[0];
+    for(var [name, item] of channelsSelectedMap){
+
+        $(userUl).append(
+            '<li class="select2-selection__choice" title="'+name+'" data-select2-id="'+name+item.id+'">'+
+                '<span id="'+name+'" class="select2-selection__choice__remove removeChannel" role="presentation">×</span>'+ name+
+            '</li>'
+        );
+
+    
+    }
+
+    var firstLi = $(userUl).find(".select2-search.select2-search--inline")[0];
+    $(firstLi).remove();
+    $(userUl).append(
+            '<li class="select2-search select2-search--inline">'+
+                '<input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;" type="search">'+
+            '</li>'
+        );
+    
+}
+
+
+function isSelected(itemName, itemType){
+
+    var userUl = $("#user-channels-li").find("ul")[0];
+    if(itemType == 'card'){
+        userUl = $("#user-payments-li").find("ul")[0];
+    }
+    if(itemType == 'country'){
+        userUl = $("#user-countries-li").find("ul")[0];
+    }
+    var list = $(userUl).find(".select2-selection__choice");
+    for(var i = 0; i < list.length; i++){
+        if($(list[i]).attr('title') == itemName){
+            return 'yes';
+        }
+    }
+    return 'no';
+}
+
+function serchName(itemID, itemType){
+    var map = new Map(JSON.parse(localStorage.getItem("channelsMap")));
+    if(itemType == 'card'){
+        map = new Map(JSON.parse(localStorage.getItem("cardsMap")));
+    }
+    if(itemType == 'country'){
+        map = new Map(JSON.parse(localStorage.getItem("countriesMap")));
+    }
+    for(var [name, item] of map){
+        if(item.id == itemID){
+            return name;
+        }
+    }
+}
+
+function deleteItem(itemName, itemType){
+    var userUl = $("#user-channels-li").find("ul")[0];
+    if(itemType == 'card'){
+        userUl = $("#user-payments-li").find("ul")[0];
+    }
+    if(itemType == 'country'){
+        userUl = $("#user-countries-li").find("ul")[0];
+    }
+    var list = $(userUl).find('[title='+itemName+']');
+    if(list.length > 1){
+        var dataID = $(list[0]).attr('data-select2-id');
+        $(list[1]).attr('data-select2-id',dataID);
+        $(list[0]).remove();
+    }
+
 }
 
 function addCountryByUser(token, userID, countryID){
