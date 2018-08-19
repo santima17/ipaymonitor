@@ -1,12 +1,17 @@
 package com.iwtg.ipaymonitor.facades.search.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.iwtg.ipaymonitor.datalayer.model.Transaction;
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.iwtg.ipaymonitor.datalayer.model.Audit;
+import com.iwtg.ipaymonitor.facades.converters.search.AuditConverter;
 import com.iwtg.ipaymonitor.facades.datatypes.search.DataSearchTransaction;
 import com.iwtg.ipaymonitor.facades.exceptions.IPayMonitorException;
 import com.iwtg.ipaymonitor.facades.search.interfaces.IPayMonitorSearchFacades;
 import com.iwtg.ipaymonitor.generic.datatypes.DataSearchTransactionParameter;
+import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionAudit;
 import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionSearchResult;
 import com.iwtg.ipaymonitor.servicelayer.context.IpayMonitorServicesContextLoader;
 import com.iwtg.ipaymonitor.servicelayer.search.interfaces.IPayMonitorSearchService;
@@ -18,6 +23,8 @@ public class IPayMonitorSearchFacadesImplementation implements IPayMonitorSearch
 
 	IPayMonitorSearchService searchServices = (IPayMonitorSearchServiceImplementation) IpayMonitorServicesContextLoader
 			.contextLoader().getBean("searchServices");
+	
+	AuditConverter auditConverter = new AuditConverter();
 
 	
 	public List<DataTransactionSearchResult> searchTransactions(final DataSearchTransaction dataSearchTransactionParameter)
@@ -42,6 +49,16 @@ public class IPayMonitorSearchFacadesImplementation implements IPayMonitorSearch
 		param.setStatus(dataSearchTransaction.getStatus());
 		param.setTransactionID(dataSearchTransaction.getTransactionID());
 		return param;
+	}
+
+	public List<DataTransactionAudit> auditByTransaction(String idTransaction) throws IPayMonitorException {
+		List<Audit> modelList = searchServices.auditByTransaction(idTransaction);
+		List<DataTransactionAudit> dataList = new ArrayList<DataTransactionAudit>();
+		if(modelList != null && CollectionUtils.isNotEmpty(modelList)) {
+			return auditConverter.convertAll(modelList);
+		}
+		return dataList;
+		
 	}
 
 }

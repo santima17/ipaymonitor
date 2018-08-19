@@ -47,6 +47,35 @@ $( "#edit-user-form" ).click(function(){
         var token = localStorage.getItem("token").substring(6);
         var user = JSON.parse(createUserInformation(false));
         sendUser(user, token);
+
+        user = JSON.parse(localStorage.getItem("userForAddInfo"));  
+        var countries = $("#user-countries-li").find("li.select2-selection__choice");
+        for(var i = 0; i < countries.length; i++){
+            var name = $(countries[i]).attr("title");
+            var countriesMap = new Map(JSON.parse(localStorage.getItem("countriesMap")));
+            var country = countriesMap.get(name);
+            addCountryByUser(token, user.id, country.id);
+        }
+        $.notify("Países agregados con éxito", "success");
+
+        var cards = $("#user-payments-li").find("li.select2-selection__choice");
+        for(var i = 0; i < cards.length; i++){
+            var name = $(cards[i]).attr("title");
+            var cardsMap = new Map(JSON.parse(localStorage.getItem("cardsMap")));
+            var card = cardsMap.get(name);
+            addCardByUser(token, user.id, card.id);
+        }
+        $.notify("Medios de pago agregados con éxito", "success");
+
+        var channels = $("#user-channels-li").find("li.select2-selection__choice");
+        for(var i = 0; i < channels.length; i++){
+            var name = $(channels[i]).attr("title");
+            var channelsMap = new Map(JSON.parse(localStorage.getItem("channelsMap")));
+            var channel = channelsMap.get(name);
+            addChannelByUser(token, user.id, channel.id);
+        }
+        $.notify("Canales agregados con éxito", "success");
+        window.location.replace("usuarios.html");
     }
 });
 

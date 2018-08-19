@@ -1,3 +1,4 @@
+
 function getAllCountries(token, page){
     $.ajax({
         url: "http://localhost:8080/ipaymonitor/system/countries",
@@ -32,6 +33,9 @@ function getAllCountriesByUser(token, userID, page){
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
+            var userUl = $("#user-countries-li").find("ul")[0];
+            $(userUl).empty();
+            $(userUl).append('<li class="select2-search select2-search--inline"><input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Seleccionar países" style="width: 378px;" type="search"></li>');  
         }
     });
 }
@@ -78,7 +82,7 @@ function fillCountriesSelected(countries){
 
         $(userUl).append(
 			'<li class="select2-selection__choice" title="'+countries[i].name+'" data-select2-id="'+countries[i].name+countries[i].id+'">'+
-            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ countries[i].name+
+            	'<span id="'+countries[i].name+'" class="select2-selection__choice__remove removeCountry" role="presentation">×</span>'+ countries[i].name+
             '</li>'
         );
 
@@ -127,6 +131,9 @@ function getAllCardsByUser(token, userID, page){
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
+            var userUl = $("#user-payments-li").find("ul")[0];
+            $(userUl).empty();
+            $(userUl).append('<li class="select2-search select2-search--inline"><input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Seleccionar medios" style="width: 378px;" type="search"></li>');
         }
     });
 }
@@ -173,7 +180,7 @@ function fillCardsSelected(cards){
 
         $(userUl).append(
 			'<li class="select2-selection__choice" title="'+cards[i].name+'" data-select2-id="'+cards[i].name+cards[i].id+'">'+
-            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ cards[i].name+
+            	'<span id="'+cards[i].name+'" class="select2-selection__choice__remove removeCard" role="presentation">×</span>'+ cards[i].name+
             '</li>'
         );
 
@@ -223,6 +230,9 @@ function getAllChannelsByUser(token, userID, page){
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
+            var userUl = $("#user-channels-li").find("ul")[0];
+            $(userUl).empty();
+            $(userUl).append('<li class="select2-search select2-search--inline"><input class="select2-search__field" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Seleccionar canales" style="width: 378px;" type="search"></li>');
         }
     });
 }
@@ -267,7 +277,7 @@ function fillChannelsSelected(channels){
 
         $(userUl).append(
 			'<li class="select2-selection__choice" title="'+channels[i].name+'" data-select2-id="'+channels[i].name+channels[i].id+'">'+
-            	'<span class="select2-selection__choice__remove" role="presentation">×</span>'+ channels[i].name+
+            	'<span id="'+channels[i].name+'" class="select2-selection__choice__remove removeChannel" role="presentation">×</span>'+ channels[i].name+
             '</li>'
         );
 
@@ -297,6 +307,7 @@ function addCountryByUser(token, userID, countryID){
         data: data,
         dataType: 'html',
         processData: true,
+        async: false,
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -318,6 +329,7 @@ function addCardByUser(token, userID, cardID){
         data: data,
         dataType: 'html',
         processData: true,
+        async: false,
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	
@@ -339,6 +351,7 @@ function addChannelByUser(token, userID, channelID){
         data: data,
         dataType: 'html',
         processData: true,
+        async: false,
         contentType: 'application/json',
         success: function (data, textStatus, response) {
         	

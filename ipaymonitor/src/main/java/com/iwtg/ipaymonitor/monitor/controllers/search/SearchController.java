@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iwtg.ipaymonitor.facades.datatypes.search.DataSearchTransaction;
 import com.iwtg.ipaymonitor.facades.exceptions.IPayMonitorException;
 import com.iwtg.ipaymonitor.facades.search.interfaces.IPayMonitorSearchFacades;
+import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionAudit;
 import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionSearchResult;
 
 @RestController
@@ -31,6 +33,17 @@ public class SearchController{
 			HttpServletRequest request) {
 		try {
 			ResponseEntity<List<DataTransactionSearchResult>> response = new ResponseEntity(searchFacades.searchTransactions(dataSearchTransaction), HttpStatus.OK);
+			return response;
+		} catch (IPayMonitorException e) {
+			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+
+	@RequestMapping(value = "/audit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity searchAuditByTransactions(@PathVariable String id) {
+		try {
+			ResponseEntity<List<DataTransactionAudit>> response = new ResponseEntity(searchFacades.auditByTransaction(id), HttpStatus.OK);
 			return response;
 		} catch (IPayMonitorException e) {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);

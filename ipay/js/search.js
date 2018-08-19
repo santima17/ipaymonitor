@@ -1,3 +1,11 @@
+$(document).ready(function(){
+  $('body').on('click', '.btn-modal.audit', function(){
+    var token = localStorage.getItem("token").substring(6);
+	var transactionID = $(this).attr("id");
+	audit(transactionID, token);
+  })
+})
+
 $("#search").click(function(){
 
 	var token = localStorage.getItem("token").substring(6);
@@ -48,17 +56,19 @@ $("#search").click(function(){
 		medioPago = $("#medioPago").val();
 	}    
 	var arrayDateFrom = dateFrom.split("/");
-	var arrayDateTo = dateFrom.split("/");
+	var arrayDateTo = dateTo.split("/");
 
 	var dateFromJSON = new Date(arrayDateFrom[2]+'-'+arrayDateFrom[1]+'-'+arrayDateFrom[0]+'T00:00:00').getTime();
 	var dateToJSON = new Date(arrayDateTo[2]+'-'+arrayDateTo[1]+'-'+arrayDateTo[0]+'T23:59:59').getTime();
 
-	var jsonSearchParameters = '{"transactionID":"","document":"'+documento+'","channel":"'+channel+'","country":"'+country+'","cardBrand":"'+medioPago+'","bank":"","currency":"'+currency+'","status":"'+state+'","dateFrom":"'+dateFromJSON+'","dateTo":"'+dateToJSON+'"}';
+	var jsonSearchParameters = '{"transactionID":"'+code+'","document":"'+documento+'","channel":"'+channel+'","country":"'+country+'","cardBrand":"'+medioPago+'","bank":"","currency":"'+currency+'","status":"'+state+'","dateFrom":"'+dateFromJSON+'","dateTo":"'+dateToJSON+'"}';
     ;
 
     search(JSON.parse(jsonSearchParameters), token);
 
 });
+
+
 
 
 function search(searchParameters, token){
@@ -84,6 +94,28 @@ function search(searchParameters, token){
     });
 }
 
+function audit(transactionID, token){
+    $.ajax({
+        url: "http://localhost:8080/ipaymonitor/search/audit/"+transactionID,
+        headers: {
+            'Authorization': 'TOKEN:' + token,
+        },
+        type: "GET",
+        processData: true,
+        dataType: 'json',
+        async: "false",
+        contentType: 'application/json',
+        success: function (data, textStatus, response) {
+            if(response.status == '200') {
+                fillAudit(data);
+            }
+        },
+        error: function(response, textStatus, errorThrown) {
+            handlerError(response);
+        }
+    });
+}
+
 
 function fillMonitor(transactions){
 
@@ -92,7 +124,6 @@ function fillMonitor(transactions){
 
 	$(".fw-bold.trans").empty();
 	$(".fw-bold.trans").append(transactions.length + ' transacciones');
-
 
 	for(var i = 0; i < transactions.length; i++){
 	    var date = new Date(transactions[i].fecha);
@@ -172,9 +203,94 @@ function fillMonitor(transactions){
 
 
         
-        $(ul).append('<li class="btn-modal" data-modal="transfer-info"><div><div class="actions"><span class="left">'+transactions[i].codigoRes+'</span><span class="icon info left tooltip"><small>Ver detalle</small></span></div></div><div>'+dateString+'</div><div '+ isError +'><span class="icon '+statusClass+' small"></span>'+status+'</div><div>'+medioPago+'</div><div>'+transactions[i].tarjeta+'</div><div>'+channel+'</div><div>'+transactions[i].pais+'</div><div>'+amountPrefix+','+amountSufix+'</div><div>'+currency+'</div></li>');
+        $(ul).append('<li id="'+transactions[i].codigoRes+'" class="btn-modal audit" data-modal="transfer-info"><div><div class="actions"><span class="left">'+transactions[i].codCard+'</span><span class="icon info left tooltip audit"><small>Ver detalle</small></span></div></div><div>'+dateString+'</div><div '+ isError +'><span class="icon '+statusClass+' small"></span>'+status+'</div><div>'+medioPago+'</div><div>'+transactions[i].tarjeta+'</div><div>'+channel+'</div><div>'+transactions[i].pais+'</div><div>'+amountPrefix+','+amountSufix+'</div><div>'+currency+'</div></li>');
       
     }
+
+}
+
+
+function fillAudit(registros){
+
+	$(".fw-bold.codigo.transaction").empty();
+
+	$(".fw-bold.codigo.transaction").append(registros[0].nroTransaccion);
+
+	$(".audit.panel").empty();
+
+	$(".audit.panel").append('<li class="header fw-bold">' +
+						'<h4>Tramo</h4>' +
+						'<h4>Vía comunicación</h4>' +
+						'<h4>Fecha</h4>' +
+						'<h4>Estado</h4>' +
+					'</li>');
+
+	for(var i = 0; i < registros.length; i++){
+
+		var date = new Date(registros[i].fecha);
+	    var dd = date.getDate(); 
+	    var mm = date.getMonth()+1; 
+	    var yyyy = date.getFullYear();
+	    var hr = date.getHours();
+	    var min = date.getMinutes();
+	    var sec = date.getSeconds();
+
+	    dateString = dd + '/' + mm + '/' + yyyy + ' ' + hr + ':' + min + ':' + sec;
+
+
+		var estadoCentinela = registros[i].estado.split("@")[0];
+
+
+		var status = "Transacción Autorizada";
+	 	var statusClass = "close"
+
+	    if (estadoCentinela == "000") {
+	    	status = "Transacción autorizada";
+	    	statusClass = "success";
+	    } else if (estadoCentinela == "D") {
+	    	status = "Devuelto";
+	    } else if (estadoCentinela == "C") {
+	    	status = "Cancelado"
+	    } else if (estadoCentinela == "001") {
+	    	status = "Denegado: Limite de Credito";
+	    } else if (estadoCentinela == "PPP") {
+	    	status = "Pendiente de Respuesta";
+	    } else if (estadoCentinela == "114") {
+	        status = "Denegado: Operación no autorizada por medio de pago";
+	    } else if (estadoCentinela == "010") {
+	    	status = "Denegado: Tarjeta Extraviada";
+	    } else if (estadoCentinela == "011") {
+	    	status = "Denegado: Tarjeta Inválida o Info Incompleta";
+	    } else if (estadoCentinela == "100") {
+	    	status = "Denegado: Error de Seguridad";
+	    } else if (estadoCentinela == "110") {
+	    	status = "Denegado: Order Duplicada";
+	    } else if (estadoCentinela == "111") {
+	    	status = "Error de comunicacion";
+	    } else if (estadoCentinela == "112") {
+	    	status = "Cancelado por usuario";
+	    } else if (estadoCentinela == "CHK") {
+	    	status = "Chequear Manualmente";
+	    	statusClass = "error";
+	    	isError = 'class="error"';
+	    } else {
+	    	status = "Denegado: Por medio de pago";
+	    }
+
+	    var accion = registros[i].accion.split(":");
+	    if(accion.length == 1){
+	    	accion[1] = '';
+	    }
+		$(".audit.panel").append(
+					'<li>' +
+						'<div>'+accion[0]+'</div>' +
+						'<div>'+accion[1]+'</div>' +
+						'<div>'+dateString+'</div>' +
+						'<div class="icon-wrapper"><span class="icon '+statusClass+' small"></span>'+status+'</div>' +
+					'</li>'
+					);
+
+	}
 
 }
 
