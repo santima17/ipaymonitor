@@ -230,7 +230,7 @@ function changePassword(){
 
 function sendUser(currentUser, token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/user/",
+        url: "http://138.197.150.98:8080/ipaymonitor/user/",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -253,7 +253,7 @@ function sendUser(currentUser, token){
 
 function sendNewUser(currentUser, token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/user/",
+        url: "http://138.197.150.98:8080/ipaymonitor/user/",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -277,7 +277,7 @@ function sendNewUser(currentUser, token){
 
 function removeUser(userID, token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/user/" + userID,
+        url: "http://138.197.150.98:8080/ipaymonitor/user/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -301,7 +301,7 @@ function removeUser(userID, token){
 function getUserByUserName(userName, token){
     $.ajax({
         async: "false",
-        url: "http://localhost:8080/ipaymonitor/user/username/" + userName,
+        url: "http://138.197.150.98:8080/ipaymonitor/user/username/" + userName,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -310,10 +310,17 @@ function getUserByUserName(userName, token){
             if(response.status == '200') {
                 $("#user-info").html(data.name + ' ' + data.lastName);              
             }
+            localStorage.removeItem("currentUser"); 
             localStorage.setItem("currentUser", JSON.stringify(data));
+
+            var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            getAllChannelsByUser(token, currentUser.id, 'monitor');
+            getAllCardsByUser(token, currentUser.id, 'monitor');
+            getAllCountriesByUser(token, currentUser.id, 'monitor');
+
             if(data.isAdmin == '1'){
                 $("#main-menu").append('<li><a href="usuarios.html" class="icon-wrapper"><span class="icon user"></span>Gestión de usuarios</a></li>');
-                $("#main-menu").append('<li><a href="estadisticas.html" class="icon-wrapper"><span class="icon graph"></span>Estadísticas</a></li>');
+                $("#main-menu").append('<li><a href="#" data-toggle="tooltip" title="No disponible, contacte a IWTG"><span class="icon graph"></span><span style="color:#D5D1D1">Estadísticas</span></a></li>');
             }   
         },
         error: function(response, textStatus, errorThrown) {
@@ -325,7 +332,7 @@ function getUserByUserName(userName, token){
 function getUserByUserNameForAddInfo(userName, token){
     $.ajax({
         async: "false",
-        url: "http://localhost:8080/ipaymonitor/user/username/" + userName,
+        url: "http://138.197.150.98:8080/ipaymonitor/user/username/" + userName,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -345,7 +352,7 @@ function getUserByUserNameForAddInfo(userName, token){
 function getUserByUserID(userID, token){
     $.ajax({
         async: "false",
-        url: "http://localhost:8080/ipaymonitor/user/" + userID,
+        url: "http://138.197.150.98:8080/ipaymonitor/user/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -370,7 +377,7 @@ function getUserByUserID(userID, token){
 
 function getAllUsers(token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/user",
+        url: "http://138.197.150.98:8080/ipaymonitor/user",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },

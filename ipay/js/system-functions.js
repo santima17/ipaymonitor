@@ -1,7 +1,7 @@
 
 function getAllCountries(token, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/countries",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/countries",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -22,14 +22,18 @@ function getAllCountries(token, page){
 
 function getAllCountriesByUser(token, userID, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/countries/" + userID,
+        url: "http://138.197.150.98:8080/ipaymonitor/system/countries/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
         type: "GET",
         async: false,
         success: function (data, textStatus, response) {
-        	fillCountriesSelected(data);
+            if(page == 'user'){
+                fillCountriesSelected(data);
+            }else if(page == 'monitor'){
+                fillCountriesMonitor(data);
+            }
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -56,13 +60,14 @@ function fillCountriesSelect(countries){
 }
 
 function fillCountriesMonitor(countries){
-
+    var countrySelectedMapCurrentUser = new Map();
     for(var i = 0; i < countries.length; i++){
          $("#country").append(
             '<option value="'+countries[i].id+'">'+countries[i].name+'</option>'
          );
-      
+         countrySelectedMapCurrentUser.set(countries[i].name, countries[i]);
     }
+    localStorage.setItem("countrySelectedMapCurrentUser", JSON.stringify([...countrySelectedMapCurrentUser]));
 }
 
 
@@ -120,7 +125,7 @@ function completeCountriesSelected(){
 
 function getAllCards(token, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/cards",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/cards",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -140,13 +145,18 @@ function getAllCards(token, page){
 
 function getAllCardsByUser(token, userID, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/cards/" + userID,
+        url: "http://138.197.150.98:8080/ipaymonitor/system/cards/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
         type: "GET",
         success: function (data, textStatus, response) {
-             fillCardsSelected(data);
+             
+             if(page == 'user'){
+                fillCardsSelected(data);
+            }else if(page == 'monitor'){
+                fillCardsMonitor(data);
+            }
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -173,14 +183,16 @@ function fillCardsSelect(cards){
 }
 
 function fillCardsMonitor(cards){
-	
+
+    var cardsSelectedMapCurrentUser = new Map();
     for(var i = 0; i < cards.length; i++){
 
-         $("#medioPago").append(
+        $("#medioPago").append(
             '<option value="'+cards[i].id+'">'+cards[i].name+'</option>'
-         );
-
+        );
+        cardsSelectedMapCurrentUser.set(cards[i].name, cards[i]);
     }
+    localStorage.setItem("cardsSelectedMapCurrentUser", JSON.stringify([...cardsSelectedMapCurrentUser]));
 }
 
 
@@ -244,7 +256,7 @@ function completeCardsSelected(cards){
 
 function getAllChannels(token, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/channels",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/channels",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -264,13 +276,18 @@ function getAllChannels(token, page){
 
 function getAllChannelsByUser(token, userID, page){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/channels/" + userID,
+        url: "http://138.197.150.98:8080/ipaymonitor/system/channels/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
         type: "GET",
         success: function (data, textStatus, response) {
-        	fillChannelsSelected(data);
+        	
+            if(page == 'user'){
+                fillChannelsSelected(data);
+            }else if(page == 'monitor'){
+                fillChannelsMonitor(data);
+            }
         },
         error: function(response, textStatus, errorThrown) {
             handlerError(response);
@@ -297,11 +314,14 @@ function fillChannelsSelect(channels){
 
 function fillChannelsMonitor(channels){
 
+    var channelsSelectedMapCurrentUser = new Map();
     for(var i = 0; i < channels.length; i++){
-         $("#channel").append(
+        $("#channel").append(
             '<option value="'+channels[i].id+'">'+channels[i].name+'</option>'
-         );
+        );
+        channelsSelectedMapCurrentUser.set(channels[i].name, channels[i]);
     }
+    localStorage.setItem("channelsSelectedMapCurrentUser", JSON.stringify([...channelsSelectedMapCurrentUser]));
 
 }
 
@@ -420,7 +440,7 @@ function deleteItem(itemName, itemType){
 function addCountryByUser(token, userID, countryID){
 	var data = createUpdateInformation(userID, countryID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/addCountry",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/addCountry",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -442,7 +462,7 @@ function addCountryByUser(token, userID, countryID){
 function addCardByUser(token, userID, cardID){
 	var data = createUpdateInformation(userID, cardID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/addCard",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/addCard",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -464,7 +484,7 @@ function addCardByUser(token, userID, cardID){
 function addChannelByUser(token, userID, channelID){
 	var data = createUpdateInformation(userID, channelID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/addChannel",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/addChannel",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -486,7 +506,7 @@ function addChannelByUser(token, userID, channelID){
 function removeCountryByUser(token, userID, countryID){
 	var data = createUpdateInformation(userID, countryID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/removeCountry",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/removeCountry",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -507,7 +527,7 @@ function removeCountryByUser(token, userID, countryID){
 function removeCardByUser(token, userID, cardID){
 	var data = createUpdateInformation(userID, cardID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/removeCard",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/removeCard",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -528,7 +548,7 @@ function removeCardByUser(token, userID, cardID){
 function removeChannelByUser(token, userID, channelID){
 	var data = createUpdateInformation(userID, channelID);
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/system/removeChannel",
+        url: "http://138.197.150.98:8080/ipaymonitor/system/removeChannel",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },

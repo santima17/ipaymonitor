@@ -1,5 +1,9 @@
 package com.iwtg.ipaymonitor.datalayer.implementations;
 
+import java.io.File;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +22,7 @@ import com.iwtg.ipaymonitor.datalayer.interfaces.IPayMonitorMySQLDAO;
 import com.iwtg.ipaymonitor.datalayer.model.CierreLote;
 import com.iwtg.ipaymonitor.generic.datatypes.DataSearchTransactionParameter;
 import com.iwtg.ipaymonitor.generic.datatypes.DataTransactionSearchResult;
+import com.mysql.jdbc.Connection;
 
 public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 
@@ -118,10 +123,39 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 		} else {
 			Session dbSession = DBHibernateUtil.getSessionFactoryMain();
 			Query query = dbSession.createSQLQuery(makeSearchQuery(searchParameter));
+			try {
+				xlsExecute(makeXLSSearchQuery(searchParameter));
+			}catch(Exception e) {
+				System.out.println("ERROR EN XLS" + e.getMessage());	
+			}
 			List<Object[]> resultList = query.list();
 			return convertResult(resultList);
 		}
 	}
+	
+	
+	private void  xlsExecute(String query) throws Exception {
+		
+		File file = new File("/var/www/html/ipay/consulta.xls");
+    	
+		if(file.delete()){
+			System.out.println(file.getName() + " is deleted!");
+		}else{
+			System.out.println("Delete operation is failed.");
+		}
+		
+	    String driverName = "com.mysql.jdbc.Drive";
+	    String url = "jdbc:mysql://localhost:3306/web_aa?zeroDateTimeBehavior=convertToNull";
+	    String username = "root";
+	    String password = "apagon23";
+	    Connection connection = (Connection) DriverManager.getConnection(url, username, password);
+	    
+	    Statement stmt = connection.createStatement();
+	    stmt.execute(query);
+	    stmt.close();
+	    connection.close();
+
+	  }
 
 	private List<DataTransactionSearchResult> convertResult(List<Object[]> resultList) {
 		List<DataTransactionSearchResult> resultDataList = new ArrayList<DataTransactionSearchResult>();
@@ -174,6 +208,137 @@ public class IPayMonitorMySQLDAOImplementation implements IPayMonitorMySQLDAO {
 
 	private String makeSearchQuery(DataSearchTransactionParameter searchParameter) {
 		String query = "select t.*, c.tarjeta, c.autorizacion, c.codcomercio from transaction t join cierre_lote c on c.codigoRes = t.codigoRes ";
+		String where = "where ";
+		int cont = 0;
+		
+		if (StringUtils.isNotEmpty(searchParameter.getDocument())) {
+			if (cont == 1) {
+				where = where + " and documento = '" + searchParameter.getDocument() + "'";
+			} else {
+				where = where + "documento = '" + searchParameter.getDocument() + "'";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getStatus().equals("all")) {
+			if (cont == 1) {
+				if (searchParameter.getStatus().equals("Autorizado")) {
+					where = where + " and estado like '%000%'";
+				} else if (searchParameter.getStatus().equals("Cancelado")) {
+					where = where + " and estado = 'C'";
+				} else if (searchParameter.getStatus().equals("Devuelto")) {
+					where = where + " and estado = 'D'";
+				} else {
+					where = where
+							+ " and (estado like '%001%' OR estado like '%010%' OR estado like '%011%' OR estado like '%100%' OR estado like '%110%' OR estado like '%111%')";
+				}
+			} else if (searchParameter.getStatus().equals("Autorizado")) {
+				where = where + " estado like '%000%'";
+			} else if (searchParameter.getStatus().equals("Cancelado")) {
+				where = where + "estado = 'C'";
+			} else if (searchParameter.getStatus().equals("Devuelto")) {
+				where = where + "estado = 'D'";
+			} else {
+				where = where
+						+ " (estado like '%001%' OR estado like '%010%' OR estado like '%011%' OR estado like '%100%' OR estado like '%110%' OR estado like '%111%')";
+			}
+
+			cont = 1;
+		}
+		if (!searchParameter.getCountry().equals("all")) {
+			
+
+			
+			if(searchParameter.getCountry().contains("#")) {
+				String countryParameter = StringUtils.EMPTY;
+				String[] list = searchParameter.getCountry().split("#");
+				for(int i = 0; i < list.length; i++) {
+					countryParameter += list[i];
+					if(i < list.length -1) {
+						countryParameter += "' or pais = '"; 
+					}
+				}
+				searchParameter.setCountry(countryParameter);
+			}
+			
+			if (cont == 1) {
+				where = where + " and ( pais = '" + searchParameter.getCountry() + "' )";
+			} else {
+				where = where + " ( pais = '" + searchParameter.getCountry() + "' )";
+			}
+			cont = 1;
+			
+		}
+		if (!searchParameter.getChannel().equals("all")) {
+			
+			if(searchParameter.getChannel().contains("#")) {
+				String channelParameter = StringUtils.EMPTY;
+				String[] list = searchParameter.getChannel().split("#");
+				
+				for(int i = 0; i < list.length; i++) {
+					channelParameter += list[i];
+					if(i < list.length -1) {
+						channelParameter += "' or canal = '"; 
+					}
+				}
+				searchParameter.setChannel(channelParameter);
+			}
+			
+			if (cont == 1) {
+				where = where + " and ( canal = '" + searchParameter.getChannel() + "' )";
+			} else {
+				where = where + " ( canal = '" + searchParameter.getChannel() + "' )";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getCurrency().equals("all")) {
+			if (cont == 1) {
+				where = where + " and moneda = '" + searchParameter.getCurrency() + "'";
+			} else {
+				where = where + "moneda = '" + searchParameter.getCurrency() + "'";
+			}
+			cont = 1;
+		}
+		if (!searchParameter.getCardBrand().equals("all")) {
+			
+			if(searchParameter.getCardBrand().contains("#")) {
+				String cardParameter = StringUtils.EMPTY;
+				String[] list = searchParameter.getCardBrand().split("#");
+				
+				for(int i = 0; i < list.length; i++) {
+					cardParameter += list[i];
+					if(i < list.length -1) {
+						cardParameter += "' or medioPago = '"; 
+					}
+				}
+				searchParameter.setCardBrand(cardParameter);
+			}
+			
+			if (cont == 1) {
+				where = where + " and  ( medioPago = '" + searchParameter.getCardBrand() + "' )";
+			} else {
+				where = where + " ( medioPago = '" + searchParameter.getCardBrand() + "' )";
+			}
+			cont = 1;
+		}
+
+		SimpleDateFormat formatterFrom = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		SimpleDateFormat formatterTo = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+
+		if (cont == 1) {
+			where = where + " and (t.fecha >= '" + formatterFrom.format(searchParameter.getDateFrom()) + "' and t.fecha <= '"
+					+ formatterTo.format(searchParameter.getDateTo()) + "')";
+		} else {
+			where = where + "(t.fecha >= '" + formatterFrom.format(searchParameter.getDateFrom()) + "' and t.fecha <= '"
+					+ formatterTo.format(searchParameter.getDateTo()) + "')";
+		}
+
+		System.out.println("QUERY" + query + where);
+		return query + where;
+	}
+	
+	private String makeXLSSearchQuery(DataSearchTransactionParameter searchParameter) {
+		
+		String query = "select t.*, c.tarjeta, c.autorizacion, c.codcomercio INTO OUTFILE '/var/www/html/ipay/consulta.xls' from transaction t join cierre_lote c on c.codigoRes = t.codigoRes ";
 		String where = "where ";
 		int cont = 0;
 		

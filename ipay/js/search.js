@@ -61,9 +61,34 @@ $("#search").click(function(){
 	var dateFromJSON = new Date(arrayDateFrom[2]+'-'+arrayDateFrom[1]+'-'+arrayDateFrom[0]+'T00:00:00').getTime();
 	var dateToJSON = new Date(arrayDateTo[2]+'-'+arrayDateTo[1]+'-'+arrayDateTo[0]+'T23:59:59').getTime();
 
-	var jsonSearchParameters = '{"transactionID":"'+code+'","document":"'+documento+'","channel":"'+channel+'","country":"'+country+'","cardBrand":"'+medioPago+'","bank":"","currency":"'+currency+'","status":"'+state+'","dateFrom":"'+dateFromJSON+'","dateTo":"'+dateToJSON+'"}';
-    ;
+	var cardsSelectedMap = new Map(JSON.parse(localStorage.getItem("cardsSelectedMapCurrentUser")));
+	if(medioPago == 'all' && cardsSelectedMap.size != 4){
+		medioPago = '';
+		for(var [name, item] of cardsSelectedMap){
+			medioPago += item.id + "#";
+		}
+	}
 
+	var channelsSelectedMapCurrentUser = new Map(JSON.parse(localStorage.getItem("channelsSelectedMapCurrentUser")));
+	if(channel == 'all' && channelsSelectedMapCurrentUser.size != 3){
+		channel = '';
+		for(var [name, item] of channelsSelectedMapCurrentUser){
+			channel += item.id + "#";
+		}
+	}
+
+	var countrySelectedMapCurrentUser = new Map(JSON.parse(localStorage.getItem("countrySelectedMapCurrentUser")));
+	if(country == 'all' && countrySelectedMapCurrentUser.size != 18){
+		country = '';
+		for(var [name, item] of countrySelectedMapCurrentUser){
+			country += item.id + "#";
+		}
+	}
+
+	
+
+	var jsonSearchParameters = '{"transactionID":"'+code+'","document":"'+documento+'","channel":"'+channel+'","country":"'+country+'","cardBrand":"'+medioPago+'","bank":"","currency":"'+currency+'","status":"'+state+'","dateFrom":"'+dateFromJSON+'","dateTo":"'+dateToJSON+'"}';
+   
     search(JSON.parse(jsonSearchParameters), token);
 
 });
@@ -73,7 +98,7 @@ $("#search").click(function(){
 
 function search(searchParameters, token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/search",
+        url: "http://138.197.150.98:8080/ipaymonitor/search",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -96,7 +121,7 @@ function search(searchParameters, token){
 
 function audit(transactionID, token){
     $.ajax({
-        url: "http://localhost:8080/ipaymonitor/search/audit/"+transactionID,
+        url: "http://138.197.150.98:8080/ipaymonitor/search/audit/"+transactionID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -121,6 +146,17 @@ function fillMonitor(transactions){
 
 	var ul = $(".table.fs-s").find("ul")[0];
 	$(ul).empty();
+	$(ul).append(	'<li class="header fw-bold">'+
+						'<h4>Operación</h4>'+
+						'<h4>Fecha</h4>'+
+						'<h4>Estado</h4>'+
+						'<h4>Tarjeta</h4>'+
+						'<h4>Número</h4>'+
+						'<h4>Canal</h4>'+
+						'<h4>País</h4>'+
+						'<h4>Monto</h4>'+
+						'<h4>Moneda</h4>'+
+					'</li>');
 
 	$(".fw-bold.trans").empty();
 	$(".fw-bold.trans").append(transactions.length + ' transacciones');
@@ -201,9 +237,18 @@ function fillMonitor(transactions){
         	status = "Denegado: Por medio de pago";
         }
 
-
+		var tarjetaStr = transactions[i].tarjeta;
+      	var tar1 = "";
+      	var tar2 = "";
+      	if (tarjetaStr.length >= 16) {
+        	if ( tarjetaStr!="null" && tarjetaStr.includes("******") == false) {
+          		tar1 = tarjetaStr.substring(0, 6);
+          		tar2 = tarjetaStr.substring(12, 16);
+          		tarjetaStr = tar1 + "******" + tar2;
+        	} 
+		}	
         
-        $(ul).append('<li id="'+transactions[i].codigoRes+'" class="btn-modal audit" data-modal="transfer-info"><div><div class="actions"><span class="left">'+transactions[i].codCard+'</span><span class="icon info left tooltip audit"><small>Ver detalle</small></span></div></div><div>'+dateString+'</div><div '+ isError +'><span class="icon '+statusClass+' small"></span>'+status+'</div><div>'+medioPago+'</div><div>'+transactions[i].tarjeta+'</div><div>'+channel+'</div><div>'+transactions[i].pais+'</div><div>'+amountPrefix+','+amountSufix+'</div><div>'+currency+'</div></li>');
+        $(ul).append('<li id="'+transactions[i].codigoRes+'" class="btn-modal audit" data-modal="transfer-info"><div><div class="actions"><span class="left">'+transactions[i].codCard+'</span><span class="icon info left tooltip audit"><small>Ver detalle</small></span></div></div><div>'+dateString+'</div><div '+ isError +'><span class="icon '+statusClass+' small"></span>'+status+'</div><div>'+medioPago+'</div><div>'+tarjetaStr+'</div><div>'+channel+'</div><div>'+transactions[i].pais+'</div><div>'+amountPrefix+','+amountSufix+'</div><div>'+currency+'</div></li>');
       
     }
 
@@ -281,6 +326,10 @@ function fillAudit(registros){
 	    if(accion.length == 1){
 	    	accion[1] = '';
 	    }
+	    if(accion.length == 3){
+	    	accion[1] = accion[1] + ":" + accion[2];
+	    }
+
 		$(".audit.panel").append(
 					'<li>' +
 						'<div>'+accion[0]+'</div>' +
