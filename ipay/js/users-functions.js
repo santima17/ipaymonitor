@@ -245,7 +245,6 @@ function sendUser(currentUser, token){
             }
         },
         error: function(response, textStatus, errorThrown) {
-            alert(errorThrown);
             handlerError(response);
         }
     });
@@ -269,7 +268,6 @@ function sendNewUser(currentUser, token){
             }
         },
         error: function(response, textStatus, errorThrown) {
-            alert(errorThrown);
             handlerError(response);
         }
     });
@@ -291,7 +289,6 @@ function removeUser(userID, token){
             }
         },
         error: function(response, textStatus, errorThrown) {
-            alert(errorThrown);
             handlerError(response);
         }
     });
@@ -425,14 +422,18 @@ function modalClose(){
     }, 300);            
 }
 
+
 function handlerError(response){
     if(response.status == '403') {
-        alert("Error de seguridad, debe ingresar nuevamente");
+        //alert("Error de seguridad, debe ingresar nuevamente");
         window.location = "../index.html";
     }
     if(response.status == '500') {
-        alert("La session ha caducado");
+        //alert("La session ha caducado");
+        window.location = "../index.html";
+    }
+    if(response.status == '0') {
+        //alert("La session ha caducado");
         window.location = "../index.html";
     }
 }
-

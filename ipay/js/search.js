@@ -24,12 +24,12 @@ $("#search").click(function(){
 		code = $("#code-op").val();
 	}
 
-	if($("#date-from").val() != ''){
-		dateFrom = $("#date-from").val();
+	if($("#date-from").datepicker().val() != ''){
+		dateFrom = $("#date-from").datepicker().val();
 	}
 
-	if($("#date-to").val() != ''){
-		dateTo = $("#date-to").val();
+	if($("#date-to").datepicker().val() != ''){
+		dateTo = $("#date-to").datepicker().val();
 	}
 
 	if($("#country").val() != ''){
@@ -58,8 +58,12 @@ $("#search").click(function(){
 	var arrayDateFrom = dateFrom.split("/");
 	var arrayDateTo = dateTo.split("/");
 
-	var dateFromJSON = new Date(arrayDateFrom[2]+'-'+arrayDateFrom[1]+'-'+arrayDateFrom[0]+'T00:00:00').getTime();
-	var dateToJSON = new Date(arrayDateTo[2]+'-'+arrayDateTo[1]+'-'+arrayDateTo[0]+'T23:59:59').getTime();
+
+	
+	//var dateFromJSON = new Date(arrayDateFrom[2]+'-'+arrayDateFrom[1]+'-'+arrayDateFrom[0]+'T00:00:00').getTime();
+	//var dateToJSON = new Date(arrayDateTo[2]+'-'+arrayDateTo[1]+'-'+arrayDateTo[0]+'T23:59:59').getTime();
+	var dateFromJSON = new Date(arrayDateFrom[2], arrayDateFrom[1]-1, arrayDateFrom[0], 00, 00, 00).getTime();
+	var dateToJSON = new Date(arrayDateTo[2], arrayDateTo[1]-1, arrayDateTo[0], 23, 59, 59).getTime();
 
 	var cardsSelectedMap = new Map(JSON.parse(localStorage.getItem("cardsSelectedMapCurrentUser")));
 	if(medioPago == 'all' && cardsSelectedMap.size != 4){

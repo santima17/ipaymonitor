@@ -7,9 +7,6 @@ var openedModal = "";
 $(window).resize(function(){
 	w = $(window).width();
 	h = $(window).height();
-	
-	// modals
-	modalPosition(openedModal);
 });
 
 $(document).ready(start);
@@ -47,9 +44,6 @@ function modalOpen(id,btn){
 	}
 	
 	$("#" + id).fadeIn(200);
-	setTimeout(function(){
-		modalPosition(openedModal);
-	}, 50);
 	$(".overlay").fadeIn(300);
 	$("#" + id).addClass("on");
 	setTimeout(function(){
@@ -66,17 +60,4 @@ function modalClose(){
 		$("body").removeClass("modalOpen");
 		$(".overlay").removeClass("black");
 	}, 300);			
-}
-
-/* modal > position */
-function modalPosition(visibleModal){
-	if(visibleModal != ""){
-		if(h > $("#" + visibleModal + " .content").outerHeight()+40){
-			$("#" + visibleModal).css("top",(h-$("#" + visibleModal + " .content").outerHeight())/2);
-			$("#" + visibleModal).css("bottom","inherit");
-		}else{
-			$("#" + visibleModal).css("top",20);
-			$("#" + visibleModal).css("bottom",20);
-		}
-	}
 }

@@ -573,11 +573,15 @@ function createUpdateInformation(userID, itemID){
 
 function handlerError(response){
     if(response.status == '403') {
-        alert("Error de seguridad, debe ingresar nuevamente");
-        window.location = "../index.html";
+        //alert("Error de seguridad, debe ingresar nuevamente");
+		window.location = "../index.html";
     }
     if(response.status == '500') {
-        alert("La session ha caducado");
+        //alert("La session ha caducado");
+		window.location = "../index.html";
+    }
+    if(response.status == '0') {
+        //alert("La session ha caducado");
         window.location = "../index.html";
     }
 }

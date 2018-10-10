@@ -126,7 +126,7 @@ form ul:not(.long) li.dual .btn{width:100%;min-width:0;margin-top:28px;line-heig
 
 /* modal */
 .overlay{position:fixed;top:0;bottom:0;left:0;right:0;background-color:#000;z-index:99998;display:none;opacity:.6}
-.modal{position:fixed;z-index:99999;display:none;transition:none;-webkit-transition:none;-moz-transition:none;-ms-transition:none;opacity:0;width:460px;background:#FFF;padding:0 40px;top:70px;overflow-x:hidden;overflow-y:auto;border-radius:10px;box-shadow: 0 1px 8px 0 #c2d1dd;transform:translateX(-50%);-webkit-transform:translateX(-50%);-moz-transform:translateX(-50%);-ms-transform:translateX(-50%);left:50%}
+.modal{position:fixed;z-index:99999;display:none;transition:none;-webkit-transition:none;-moz-transition:none;-ms-transition:none;opacity:0;width:460px;background:#FFF;padding:0 40px;top:50%;overflow-x:hidden;overflow-y:auto;border-radius:10px;box-shadow: 0 1px 8px 0 #c2d1dd;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);left:50%;max-height:calc(100vh - 100px)}
 .modal.big{width:calc(100vw - 80px);max-width:1024px}
 .modal.on{transition:opacity .4s linear;-webkit-transition:opacity .4s linear;-moz-transition:opacity .4s linear;-ms-transition:opacity .4s linear;opacity:1}
 .modal .content{padding:40px 0;width:100%}
