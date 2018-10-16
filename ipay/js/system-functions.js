@@ -1,7 +1,7 @@
 
 function getAllCountries(token, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/countries",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/countries",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -22,7 +22,7 @@ function getAllCountries(token, page){
 
 function getAllCountriesByUser(token, userID, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/countries/" + userID,
+        url: "http://64.38.7.218:8080/ipaymonitor/system/countries/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -125,7 +125,7 @@ function completeCountriesSelected(){
 
 function getAllCards(token, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/cards",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/cards",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -145,7 +145,7 @@ function getAllCards(token, page){
 
 function getAllCardsByUser(token, userID, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/cards/" + userID,
+        url: "http://64.38.7.218:8080/ipaymonitor/system/cards/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -256,7 +256,7 @@ function completeCardsSelected(cards){
 
 function getAllChannels(token, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/channels",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/channels",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -276,7 +276,7 @@ function getAllChannels(token, page){
 
 function getAllChannelsByUser(token, userID, page){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/channels/" + userID,
+        url: "http://64.38.7.218:8080/ipaymonitor/system/channels/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -440,7 +440,7 @@ function deleteItem(itemName, itemType){
 function addCountryByUser(token, userID, countryID){
 	var data = createUpdateInformation(userID, countryID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/addCountry",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/addCountry",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -462,7 +462,7 @@ function addCountryByUser(token, userID, countryID){
 function addCardByUser(token, userID, cardID){
 	var data = createUpdateInformation(userID, cardID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/addCard",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/addCard",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -484,7 +484,7 @@ function addCardByUser(token, userID, cardID){
 function addChannelByUser(token, userID, channelID){
 	var data = createUpdateInformation(userID, channelID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/addChannel",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/addChannel",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -506,7 +506,7 @@ function addChannelByUser(token, userID, channelID){
 function removeCountryByUser(token, userID, countryID){
 	var data = createUpdateInformation(userID, countryID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/removeCountry",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/removeCountry",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -527,7 +527,7 @@ function removeCountryByUser(token, userID, countryID){
 function removeCardByUser(token, userID, cardID){
 	var data = createUpdateInformation(userID, cardID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/removeCard",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/removeCard",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -548,7 +548,7 @@ function removeCardByUser(token, userID, cardID){
 function removeChannelByUser(token, userID, channelID){
 	var data = createUpdateInformation(userID, channelID);
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/system/removeChannel",
+        url: "http://64.38.7.218:8080/ipaymonitor/system/removeChannel",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },

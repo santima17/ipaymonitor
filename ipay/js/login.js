@@ -19,7 +19,7 @@ $(document).ready(
 			}
 			if (login){
 		        $.ajax({
-		            url: "http://138.197.150.98:8080/ipaymonitor/user/login",
+		            url: "http://64.38.7.218:8080/ipaymonitor/user/login",
 		            type: "POST",
 		            data:  {username:user,password:password},
 		            success: function (data, textStatus, response) {

@@ -230,7 +230,7 @@ function changePassword(){
 
 function sendUser(currentUser, token){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/user/",
+        url: "http://64.38.7.218:8080/ipaymonitor/user/",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -252,7 +252,7 @@ function sendUser(currentUser, token){
 
 function sendNewUser(currentUser, token){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/user/",
+        url: "http://64.38.7.218:8080/ipaymonitor/user/",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -275,7 +275,7 @@ function sendNewUser(currentUser, token){
 
 function removeUser(userID, token){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/user/" + userID,
+        url: "http://64.38.7.218:8080/ipaymonitor/user/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -298,7 +298,7 @@ function removeUser(userID, token){
 function getUserByUserName(userName, token){
     $.ajax({
         async: "false",
-        url: "http://138.197.150.98:8080/ipaymonitor/user/username/" + userName,
+        url: "http://64.38.7.218:8080/ipaymonitor/user/username/" + userName,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -329,7 +329,7 @@ function getUserByUserName(userName, token){
 function getUserByUserNameForAddInfo(userName, token){
     $.ajax({
         async: "false",
-        url: "http://138.197.150.98:8080/ipaymonitor/user/username/" + userName,
+        url: "http://64.38.7.218:8080/ipaymonitor/user/username/" + userName,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -349,7 +349,7 @@ function getUserByUserNameForAddInfo(userName, token){
 function getUserByUserID(userID, token){
     $.ajax({
         async: "false",
-        url: "http://138.197.150.98:8080/ipaymonitor/user/" + userID,
+        url: "http://64.38.7.218:8080/ipaymonitor/user/" + userID,
         headers: {
             'Authorization': 'TOKEN:' + token,
         },
@@ -374,7 +374,7 @@ function getUserByUserID(userID, token){
 
 function getAllUsers(token){
     $.ajax({
-        url: "http://138.197.150.98:8080/ipaymonitor/user",
+        url: "http://64.38.7.218:8080/ipaymonitor/user",
         headers: {
             'Authorization': 'TOKEN:' + token,
         },

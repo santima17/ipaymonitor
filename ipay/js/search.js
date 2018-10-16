@@ -62,8 +62,12 @@ $("#search").click(function(){
 	
 	//var dateFromJSON = new Date(arrayDateFrom[2]+'-'+arrayDateFrom[1]+'-'+arrayDateFrom[0]+'T00:00:00').getTime();
 	//var dateToJSON = new Date(arrayDateTo[2]+'-'+arrayDateTo[1]+'-'+arrayDateTo[0]+'T23:59:59').getTime();
-	var dateFromJSON = new Date(arrayDateFrom[2], arrayDateFrom[1]-1, arrayDateFrom[0], 00, 00, 00).getTime();
-	var dateToJSON = new Date(arrayDateTo[2], arrayDateTo[1]-1, arrayDateTo[0], 23, 59, 59).getTime();
+ 	var dateFromJSONPRE = new Date(Date.UTC(arrayDateFrom[2], arrayDateFrom[1]-1, arrayDateFrom[0], 00, 00, 00));
+    dateFromJSONPRE.setDate(dateFromJSONPRE.getDate() + 1);
+    var dateFromJSON = dateFromJSONPRE.getTime();
+    var dateToJSON = new Date(Date.UTC(arrayDateTo[2], arrayDateTo[1]-1, arrayDateTo[0], 23, 59, 59)).getTime();
+
+	
 
 	var cardsSelectedMap = new Map(JSON.parse(localStorage.getItem("cardsSelectedMapCurrentUser")));
 	if(medioPago == 'all' && cardsSelectedMap.size != 4){
